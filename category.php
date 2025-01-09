@@ -7,7 +7,7 @@ include("header.php"); // Include the Page Layout header
 <!-- Display Page Header -->
 <div class="row" style="padding:5px"> <!-- Start of header row -->
     <div class="col-12">
-        <span class="page-title">Product Categories</span>
+        <h2 class="page-title">Product Categories</h2>
         <p>Select a category listed below:</p>
     </div>
 </div> <!-- End of header row -->
