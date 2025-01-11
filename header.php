@@ -15,13 +15,13 @@
     
 </head>
 <body style="background: linear-gradient( rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%), url(Images/background.jpg);color:white;border: 0px;
-    padding: 0px;width:100%;height:100%;background-size:cover;background-position:center;">
+    padding: 0px;width:100%;height:100vh;background-size:cover;background-position:center;">
     <div id="progress">
         <span id="progress-value"><i class="fa fa-arrow-up"></i></span>
     </div>
     <header>
         <a href="" class="logo"><img src="Images/icon.png" alt="" style="width:80px;"></a>
-        <div class="bx bx-menu" id="menu-icon"></div>
+        <div class="bx bx-menu" id="menu-icon" style="color:black"></div>
         <!-- Navigation bar -->
         <ul class="navbar">
             <li><a href="index.php"><i class="fa-sharp fa-solid fa-house"></i><span>&nbsp;Home</span></a></li>
