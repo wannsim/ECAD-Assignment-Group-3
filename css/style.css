@@ -126,6 +126,7 @@ header a{
     font-weight: 500;
     color:var(--text-color);
     padding: 0.4rem 1rem;
+    text-decoration: none;
 }
 
 .profile a span{
@@ -153,26 +154,6 @@ header i{
     display: none;
 }
 
-.container{
-    position: relative;
-    width: 100%;
-    min-height: 640px;
-    display: flex;
-    align-items: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    overflow: hidden;
-}
-
-
-.container img{
-    width: 400px;
-    position: absolute;
-    top: 250px;
-    /* bottom: -500px; */
-    right:200px; 
-}
 
 
 .heading{
@@ -193,6 +174,7 @@ header i{
 a{
     color:white;
     font-size: 20px;
+    text-decoration: underline;
 }
 @media(max-width:1080px){
     header{

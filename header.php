@@ -7,12 +7,10 @@
     <title>Ecommerce</title>
     <link rel="icon" type="image/x-icon" href="Images/icon.png">
     <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    
 </head>
 <body style="background: linear-gradient( rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%), url(Images/background.jpg);color:white;border: 0px;
     padding: 0px;width:100%;height:100vh;background-size:cover;background-position:center;background-attachment: fixed;">
