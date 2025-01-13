@@ -159,16 +159,12 @@ header i{
     min-height: 640px;
     display: flex;
     align-items: center;
-    background:url(/Images/background.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     overflow: hidden;
 }
 
-body{
-    background:url(/Images/background.jpg);
-}
 
 .container img{
     width: 400px;
