@@ -28,8 +28,8 @@ echo "  <style>
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .cart-image {
-            width: 300px;
-            margin: 75px auto;
+            width: 150px;
+            margin: auto;
         }
         .cart-message {
 			color: black;
@@ -157,7 +157,7 @@ if (isset($_SESSION["Cart"])) {
 	}
 	else {
 		// when shopping cart is empty
-		echo '<h1 style = "margin-top : 50px">Shopping Cart</h1>';
+		echo '<h1 style = "margin-top :-10px">Shopping Cart</h1>';
 		echo '<div class="breadcrumb">';
 		echo '<a href="index.php" style = "color:white">Home</a> \\ <a href="shoppingcart.php" style = "color:white"> Shopping Cart</a>';
 		echo '</div>';

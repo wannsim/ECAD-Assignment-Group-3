@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecommerce</title>
     <link rel="icon" type="image/x-icon" href="Images/icon.png">
-    <link rel="stylesheet" href="css/site.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/site.css">
     <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">

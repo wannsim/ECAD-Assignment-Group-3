@@ -51,7 +51,7 @@
     font-size: 20px;
   }
   
-  
+
 
 /* ::-webkit-scrollbar{
     width:0.5rem;
@@ -177,6 +177,7 @@ a{
     font-size: 20px;
     text-decoration: underline;
 }
+
 @media(max-width:1080px){
     header{
         padding:5px 60px;
@@ -221,6 +222,22 @@ a{
     }
     .navbar.active{
         top:100%;
+    }
+    table{
+        text-align: center;
+        display: inline-block;
+    }
+    table td,tr{
+        font-size: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width:auto;
+        padding: 20px;
+    }
+
+    table img{
+        width:100%;
     }
 }
 
@@ -281,15 +298,15 @@ a{
         top: 5px;
     }
 
-    .profile .fa-user{
+    .profile .fa-solid{
         width:30px;
         height:30px;
         padding: 0rem 0.4rem;
     }
-
+/* 
     .profile span,header a span,header i{
         font-size: 15px;
-    }
+    } */
 
 
     .heading{
