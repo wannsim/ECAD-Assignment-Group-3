@@ -162,6 +162,7 @@ WHERE
 		1. The quantity buttons
 		2. The quantity checker (display like bricklink)
 		3. Show discount (strike and days left for discount)
+		4. Make each box clickable to the product
 	*/
 	if ($result->num_rows > 0) {
 		// To Do 2 (Practical 4): Format and display 
