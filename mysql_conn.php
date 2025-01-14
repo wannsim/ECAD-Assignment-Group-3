@@ -3,7 +3,7 @@
 $servername = 'localhost';
 $username = 'root';
 $userpwd = '';
-$dbname = 'babyshop'; 
+$dbname = 'ecad_asg1'; 
 
 // Create connection
 $conn = new mysqli($servername, $username, $userpwd, $dbname);
