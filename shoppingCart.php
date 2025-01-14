@@ -143,10 +143,10 @@ if (isset($_SESSION["Cart"])) {
 	// To Do 1 (Practical 4): 
 	// Retrieve from database and display shopping cart in a table
 	$qry = "SELECT 
-    ShopCartItem.*, 
-    (ShopCartItem.Price * ShopCartItem.Quantity) AS Total, 
-    Product.ProductImage, 
-    Product.ProductDesc 
+    Product.*, 
+    ShopCartItem.price AS ShopCartPrice, 
+    ShopCartItem.quantity AS ShopCartQuantity,
+	(ShopCartItem.quantity*ShopCartItem.price) AS Total
 FROM 
     ShopCartItem 
 INNER JOIN 
@@ -179,25 +179,35 @@ WHERE
 
 			echo '<div class="product-container">';
 			echo '    <div class="product-image">';
-			echo '        <img src="' . $img . '" alt="Product Image" style = "margin-left:50px">';
+			echo '        <img src="' . $img . '" alt="Product Image" style = "margin-left:30px">';
 			echo '    </div>';
 			echo '    <div class="product-details" style = "text-align:left">';
-			echo '        <h3>' . $row["Name"] .'</h3>';
+			echo '        <h3>' . $row["ProductTitle"] .'</h3>';
 			echo '        <h2 style = "margin-top:20px">' . $row["ProductDesc"] . '</h2>';
+			if ($row["Offered"] == 1){
+				echo '<h5 style = "margin-top:50px">$' . $row["OfferedPrice"] . "</h5>";
+				echo '<h6 style = "text-decoration: line-through;">$' . $row["Price"] . "</h6>";
+				echo '<p style="margin-top: 50px; background-color: green; color: white; padding: 10px; width: fit-content; border-radius: 5px;">Save ' . round(($row["Price"] - $row["OfferedPrice"]) / $row["Price"] * 100 / 10) * 10 . "%</p>";
+
+			}
+			else{
+				echo '<h5 style = "margin-top:50px">$' . $row["Price"] . "</h5>";
+			}
 			echo '    </div>';
 			echo '    <div class="product-actions">'; // quantity
 			echo '        <div class="quantity">';
 			echo '<form id="cart-form" method="post" action="cartFunctions.php">';
 			echo '    <div class="quantity">';
 			echo '        <button type="button" id="decrease">-</button>';
-			echo '        <input type="text" id="quantity" name="quantity" value="1" />';
+			echo '        <input type="text" id="quantity" name="quantity" value=' .  $row["ShopCartQuantity"] .' />';
 			echo '        <button type="button" id="increase">+</button>';
 			echo '    </div>';
-			echo '    <input type="hidden" name="product_id" value="'$row["ProductID"]'">';  // add checker for quantity also
+			echo '    <input type="hidden" name="product_id" value="' . $row["ProductID"] . '">';  // add checker for quantity also
 			echo '    <input type="hidden" name="action" value="update">'; // Action to identify the request
+			echo '		<p>In stock: ' . $row["Quantity"] . '</p>';
 			echo '</form>';
 			echo '    </div>';
-			echo '        <div class="price">$59.95</div>'; //  add the discounted thing here
+			echo '        <div class="price">$59.95</div>'; //  add the discounted if statement here
 			echo "<form action = 'cartFunctions.php' method = 'post'>";
 			echo "<input type = 'hidden' name = 'action' value = 'remove' />";
 			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
@@ -242,7 +252,7 @@ WHERE
 			// To Do 6 (Practical 5):
 		    // Store the shopping cart items in session variable as an associate array
 			$_SESSION["Items"][]=array("productId"=>$row["ProductID"],
-			"name"=>$row["Name"],
+			"name"=>$row["ProductTitle"],
 			"price"=>$row["Price"],
 			"quantity"=>$row["Quantity"]);
 			// Accumulate the running sub-total
