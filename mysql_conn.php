@@ -1,9 +1,9 @@
 <?php
 //Connection Parameters
-$servername = 'localhost:3308';
+$servername = 'localhost';
 $username = 'root';
 $userpwd = '';
-$dbname = 'ecad_asg1'; 
+$dbname = 'babyshop'; 
 
 // Create connection
 $conn = new mysqli($servername, $username, $userpwd, $dbname);
