@@ -51,6 +51,80 @@ echo "  <style>
         .return-button:hover {
             background-color: #0056b3;
         }
+		.product-container {
+			color:black;
+            display: flex;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: calc(100% - 100px); /* Adjust for 50px margin on both sides */
+            padding: 50px;
+            border-radius: 10px;
+            margin: 50px; /* 50px margin around the container */
+        }
+        .product-image {
+            flex: 0 0 150px;
+            margin-right: 50px;
+        }
+        .product-image img {
+            width: 250px;
+            border-radius: 8px;
+        }
+        .product-details {
+            flex-grow: 1;
+        }
+        .product-details h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .product-details p {
+            color: #777;
+            font-size: 14px;
+        }
+        .product-options {
+            margin-top: 20px;
+        }
+        .product-options label {
+            font-size: 14px;
+            color: #333;
+        }
+        .product-options select,
+        .product-options input {
+            padding: 5px;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .quantity {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .quantity button {
+            padding: 5px;
+            background-color: #ddd;
+            border: none;
+            cursor: pointer;
+        }
+        .quantity input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+            margin: 0 5px;
+        }
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .remove {
+            color: #e74c3c;
+            cursor: pointer;
+        }
     </style>";
 // Include the code that contains shopping cart's functions.
 // Current session is detected in "cartFunctions.php, hence need not start session here.
@@ -68,37 +142,71 @@ if (isset($_SESSION["Cart"])) {
 	include_once("mysql_conn.php");
 	// To Do 1 (Practical 4): 
 	// Retrieve from database and display shopping cart in a table
-	$qry = "SELECT *, (Price*Quantity) AS Total
-	FROM ShopCartitem WHERE ShopCartID=?";
+	$qry = "SELECT 
+    ShopCartItem.*, 
+    (ShopCartItem.Price * ShopCartItem.Quantity) AS Total, 
+    Product.ProductImage, 
+    Product.ProductDesc 
+FROM 
+    ShopCartItem 
+INNER JOIN 
+    Product ON ShopCartItem.ProductID = Product.ProductID 
+WHERE 
+    ShopCartItem.ShopCartID = ?";
 	$stmt = $conn->prepare($qry) ;
 	$stmt->bind_param("i",$_SESSION["Cart"]) ; //"i" - integer
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$stmt->close();
-		
+	/* Things to compelte:
+		1. The quantity buttons
+		2. The quantity checker (display like bricklink)
+		3. Show discount (strike and days left for discount)
+	*/
 	if ($result->num_rows > 0) {
 		// To Do 2 (Practical 4): Format and display 
 		// the page header and header row of shopping cart page
 		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>"; 
-		echo "<div class='table-responsive'>"; // Bootstrap responsive table
-		echo "<table class='table table-hover'>"; // Start of table
-		echo "<thead class='cart-header'>"; // Start of table's header section
-		echo "<tr>" ; // Start of header row
-		echo "<th width='250px'>Item</th>";
-		echo "<th width='90px'>Price (S$)</th>" ;
-		echo "<th width='60px'>Quantity</th>" ;
-		echo "<th width='120px'>Total (S$)</th>";
-		echo "<th>&nbsp;</th>" ;
-		echo "</tr>"; // End of header row
-		echo "</thead>"; // End of table's header section
 		// To Do 5 (Practical 5):
 		// Declare an array to store the shopping cart items in session variable 
 		$_SESSION["Items"]=array();
 		// To Do 3 (Practical 4): 
 		// Display the shopping cart content
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
-		echo "<tbody>"; // Start of table's body section
 		while ($row = $result->fetch_array()) {
+			$img = "./Images/products/$row[ProductImage]";
+
+			echo '<div class="product-container">';
+			echo '    <div class="product-image">';
+			echo '        <img src="' . $img . '" alt="Product Image" style = "margin-left:50px">';
+			echo '    </div>';
+			echo '    <div class="product-details" style = "text-align:left">';
+			echo '        <h3>' . $row["Name"] .'</h3>';
+			echo '        <h2 style = "margin-top:20px">' . $row["ProductDesc"] . '</h2>';
+			echo '    </div>';
+			echo '    <div class="product-actions">'; // quantity
+			echo '        <div class="quantity">';
+			echo '<form id="cart-form" method="post" action="cartFunctions.php">';
+			echo '    <div class="quantity">';
+			echo '        <button type="button" id="decrease">-</button>';
+			echo '        <input type="text" id="quantity" name="quantity" value="1" />';
+			echo '        <button type="button" id="increase">+</button>';
+			echo '    </div>';
+			echo '    <input type="hidden" name="product_id" value="'$row["ProductID"]'">';  // add checker for quantity also
+			echo '    <input type="hidden" name="action" value="update">'; // Action to identify the request
+			echo '</form>';
+			echo '    </div>';
+			echo '        <div class="price">$59.95</div>'; //  add the discounted thing here
+			echo "<form action = 'cartFunctions.php' method = 'post'>";
+			echo "<input type = 'hidden' name = 'action' value = 'remove' />";
+			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
+			echo "<input type = 'image' src = 'images/trash-can.png' title = 'Remove Item'/>";
+			echo '    </div>';
+			echo '</div>';
+
+
+
+			/*
 			echo "<tr>";
 			echo "<td style='width:50%'>$row[Name] <br />";
 			echo "Product ID: $row[ProductID] </td>";
@@ -129,7 +237,7 @@ if (isset($_SESSION["Cart"])) {
 			echo "<input type='image' src='images/trash-can.png' title='Remove Item'/> ";
 			echo "</form>";
 			echo "</td>";
-			echo "</tr>";
+			echo "</tr>";*/
 			// To Do 6 (Practical 5):
 		    // Store the shopping cart items in session variable as an associate array
 			$_SESSION["Items"][]=array("productId"=>$row["ProductID"],
@@ -142,7 +250,7 @@ if (isset($_SESSION["Cart"])) {
 		echo "</tbody>"; // End of table's body section
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
-				
+		
 		// To Do 4 (Practical 4): 
 		// Display the subtotal at the end of the shopping cart
 		echo "<p style='text-align : right; font-size:20px'>
@@ -157,7 +265,7 @@ if (isset($_SESSION["Cart"])) {
 	}
 	else {
 		// when shopping cart is empty
-		echo '<h1 style = "margin-top : 50px">Shopping Cart</h1>';
+		echo '<h1 >Shopping Cart</h1>';
 		echo '<div class="breadcrumb">';
 		echo '<a href="index.php" style = "color:white">Home</a> \\ <a href="shoppingcart.php" style = "color:white"> Shopping Cart</a>';
 		echo '</div>';
