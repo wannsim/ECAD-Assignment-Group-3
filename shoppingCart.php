@@ -1,4 +1,57 @@
 <?php 
+echo "  <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+        }
+        .breadcrumb {
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .breadcrumb a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .cart-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .cart-image {
+            width: 300px;
+            margin: 75px auto;
+        }
+        .cart-message {
+			color: black;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        .return-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .return-button:hover {
+            background-color: #0056b3;
+        }
+    </style>";
 // Include the code that contains shopping cart's functions.
 // Current session is detected in "cartFunctions.php, hence need not start session here.
 include_once("cartFunctions.php");
@@ -103,12 +156,32 @@ if (isset($_SESSION["Cart"])) {
 		echo " </form></p>";	
 	}
 	else {
-		echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
+		// when shopping cart is empty
+		echo '<h1 style = "margin-top : 50px">Shopping Cart</h1>';
+		echo '<div class="breadcrumb">';
+		echo '<a href="index.php" style = "color:white">Home</a> \\ <a href="shoppingcart.php" style = "color:white"> Shopping Cart</a>';
+		echo '</div>';
+		echo '<div class="cart-container">';
+		echo '<img src="Images/ShoppingCartCart.png" alt="Shopping Cart" class="cart-image">';
+		echo '<h2 class="cart-message"><b>YOUR CART IS CURRENTLY EMPTY!</b></h2>';
+		echo '<p class = "cart-message">Add an item to your shopping cart before proceeding to checkout!</p>';
+		echo '<a href="index.php" class="return-button">Continue Browsing</a>';
+		echo '</div>';
 	}
 	$conn->close(); // Close database connection
 }
 else {
-	echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
+// when shopping cart is empty
+	echo '<h1 style = "margin-top : 50px">Shopping Cart</h1>';
+	echo '<div class="breadcrumb">';
+	echo '<a href="index.php" style = "color:white">Home</a> \\ <a href="shoppingcart.php" style = "color:white"> Shopping Cart</a>';
+	echo '</div>';
+	echo '<div class="cart-container">';
+	echo '<img src="Images/ShoppingCartCart.png" alt="Shopping Cart" class="cart-image">';
+	echo '<h2 class="cart-message"><b>YOUR CART IS CURRENTLY EMPTY!</b></h2>';
+	echo '<p class = "cart-message">Add an item to your shopping cart before proceeding to checkout!</p>';
+	echo '<a href="index.php" class="return-button">Continue Browsing</a>';
+	echo '</div>';
 }
 echo "</div>"; // End of container
 include("footer.php"); // Include the Page Layout footer
