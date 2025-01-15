@@ -1,4 +1,9 @@
 <?php 
+
+// Include the code that contains shopping cart's functions.
+// Current session is detected in "cartFunctions.php, hence need not start session here.
+include_once("cartFunctions.php");
+include("header.php"); // Include the Page Layout header
 echo "  <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -52,11 +57,6 @@ echo "  <style>
             background-color: #0056b3;
         }
     </style>";
-// Include the code that contains shopping cart's functions.
-// Current session is detected in "cartFunctions.php, hence need not start session here.
-include_once("cartFunctions.php");
-include("header.php"); // Include the Page Layout header
-
 if (! isset($_SESSION["ShopperID"])) { // Check if user logged in 
 	// redirect to login page if the session variable shopperid is not set
 	header ("Location: login.php");
@@ -183,6 +183,6 @@ else {
 	echo '<a href="index.php" class="return-button">Continue Browsing</a>';
 	echo '</div>';
 }
-echo "</div>"; // End of container
+echo "</div><br><br>"; // End of container
 include("footer.php"); // Include the Page Layout footer
 ?>

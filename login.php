@@ -44,6 +44,33 @@ include ( "header.php" );
         </div>
     </form>
 </div>
+
+
+<!-- <div class="form-container">
+    <div class="form" id="login">
+        <form id="LoginForm" method="post" action="~/Member/MemberLogin">
+            <div class="form-group memberform">
+                <input placeholder="Email Address" type="email" name="txtLoginID"
+                       id="txtLoginID" required />
+                <i class='bx bxs-user'></i>
+
+            </div>
+            <div class="form-group memberform">
+                <input placeholder="Password" type="password" name="txtPassword"
+                       id="txtPassword"
+                       required />
+                <i class='bx bxs-lock-alt'></i>
+
+            </div>
+            <br>
+            <input type="submit" id="btnStaffLogin"
+                   class="btn btn-primary login" value="Login" />
+            <span style="color:red;">@TempData["Message"]</span><br>
+            <span style="position:relative; text-align:center; top:15px;">New user? Click <a href="~/Home/MemberSignUp">here</a> to sign up.</span>
+
+        </form>
+    </div>
+</div> -->
 <?php
 // Include the Page Layout
 include ( "footer.php" );
