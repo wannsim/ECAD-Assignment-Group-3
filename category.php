@@ -3,12 +3,33 @@ session_start(); // Detect the current session
 include("header.php"); // Include the Page Layout header
 ?>
 <style>
+  h2 a{
+    color:black;
+  }
   table a,tr{
     color:black;
     background-color: white;
+    align-items: center;
+    text-align: center;
   }
-  table img{
+  .card{
+    align-items: center;
+    height: 400px;
+  }
+  .row{
+    align-items: center;
+    text-align: center;
+  }
+  .row img{
     width:200px;
+  }
+
+  .body{
+    padding: 15px;
+  }
+
+  .card-title{
+    font-size: 14px;
   }
   table td{
     padding:10px;
@@ -63,39 +84,40 @@ $qry = "SELECT * FROM Category";
 // Execute the SQL and get the result
 $result = $conn->query($qry);
 
-echo "<table>";
+$count = 0;
+echo "<div class='container'>";
+echo "<div class='row'>";
+
 // Display each category in a row
 while ($row = $result->fetch_array()) {
-  //echo "<div class='row' style='padding:5px'>"; // Start a new row
+  
+  echo "<div class='col-md-4' style='margin-bottom: 20px;'>";
+  echo "<div class='card'>";
 
-  // Left column - display a text link showing the category's name,
-  // display category's description in a new paragraph
-  echo "<tr>";
-  echo "<th colspan='2' style='text-align:center'>";
   $catname = urlencode($row["CatName"]);
   $catproduct = "catProduct.php?cid=$row[CategoryID]&catName=$catname";
-  //echo "<div class='col-8'>"; // 67% of row width
   echo "<h2><a href=$catproduct>$row[CatName]</a></h2>";
-  echo "</th>";
-  echo "</tr>";
-  echo "<tr>";
-  echo "<td>";
-  // Right column - display the category's image
   $img = "./Images/category/$row[CatImage]";
-  //echo "<div class='col-4'>"; // 33% of row width
   echo "<img src='$img' />";
-  echo "</td>";
-  echo "<td>";
-  echo "$row[CatDesc]";
-  echo "</td>";
 
-
-  echo "</tr>"; // End of a row
- // echo "</div>"; // End of arrow
-  echo "<tr>";
-  echo "</tr>";
+  echo "<div class='body'>";
+  echo "<h5 class='card-title'>$row[CatDesc]</h5>";
+  echo "</div>"; 
+  echo "</div>"; 
+  echo "</div>";
+  $count++;
+  if ($count % 3 == 0) {
+    echo "</div><div class='row'>"; // Close the current row and start a new one
+  }
 }
-echo "</table>";
+
+// Close any unclosed rows
+if ($count % 3 != 0) {
+echo "</div>"; // Close the last row if it is incomplete
+}
+
+echo "</div>"; // Close the container
+
 
 $conn->close(); // Close database connnection
 echo "</div>"; // End of container
