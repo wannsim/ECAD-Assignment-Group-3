@@ -36,9 +36,29 @@ function addItem() {
 		$result = $result->fetch_array();
 		$_SESSION["Cart"] = $row["ShopCartID"];
 	}
-
-  	$pid = $_POST["product_id"];
+	$pid = $_POST["product_id"];
 	$quantity = $_POST["quantity"];
+	$qry = "SELECT p.*, sci.Quantity AS ShopCartQuantity
+	FROM Product p
+	INNER JOIN ShopCartItem sci
+		ON p.ProductID = sci.ProductID
+	WHERE sci.ShopCartID = ?
+	  AND p.ProductID = ?;" ;
+		$stmt = $conn->prepare($qry);
+		$stmt->bind_param( "ii" , $_SESSION["Cart"],$pid);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		$product_quantity = 0;
+		$shopcartquantity = 0;
+		if ($result->num_rows > 0) {
+			while ($row = $result->fetch_array()) {
+				$product_quantity = $row["Quantity"];
+				$shopcartquantity = $row["ShopCartQuantity"];
+		}	
+	}
+
+  
 	$qry = "SELECT * FROM ShopCartItem WHERE ShopCartID=? AND ProductID=?";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("ii", $_SESSION["Cart"], $pid); // "i" - integer
@@ -48,12 +68,27 @@ function addItem() {
 	$addNewItem=0;
 	// if product exists in the shopping cart
 	if ($result->num_rows > 0) { // Selected product exists in shopping cart
-		$qry = "UPDATE ShopCartItem SET Quantity=LEAST(Quantity+?, 10) WHERE ShopCartID=? AND ProductID=?";
+		if ($quantity + $shopcartquantity > $product_quantity){
+			$quantity = $product_quantity;
+		}
+		elseif($quantity + $shopcartquantity <= 0){
+			$quantity = 1;
+		}
+		else{
+			$quantity += $shopcartquantity;
+		}
+		$qry = "UPDATE ShopCartItem SET Quantity= ?  WHERE ShopCartID=? AND ProductID=?";
 		$stmt = $conn->prepare($qry);
 		$stmt->bind_param("iii", $quantity, $_SESSION["Cart"], $pid);
 		$stmt->execute();
 		$stmt->close();
 	} else { // Selected product has yet to be added to shopping cart // need explain below
+		if ($quantity > $product_quantity){
+			$quantity = $product_quantity;
+		}
+		elseif($quantity <= 0){
+			$quantity = 1;
+		}
 		$qry = "INSERT INTO ShopCartItem(ShopCartID, ProductID, Price, Name, Quantity) SELECT ?, ?, Price, ProductTitle, ? FROM Product WHERE ProductID=?";
 		$stmt = $conn->prepare($qry);
 		// "iiii" - 4 integers
@@ -95,11 +130,30 @@ function updateItem() {
 	$pid = $_POST["product_id"];
 	$quantity = $_POST ["quantity"];
 	include_once("mysql_conn.php"); //Establish database connection handle: $conn
+	$qry = "SELECT * FROM Product WHERE ProductID = ?" ;
+	$stmt = $conn->prepare($qry);
+	$stmt->bind_param( "i" , $pid);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$stmt->close();
+	$product_quantity = 0;
+	if ($result->num_rows > 0) {
+		while ($row = $result->fetch_array()) {
+			$product_quantity = $row["Quantity"];
+	}	
+}
+	if ($quantity > $product_quantity){
+		$quantity = $product_quantity;
+	}
+	elseif($quantity <= 0){
+		$quantity = 1;
+	}
 	$qry = "UPDATE ShopCartitem SET Quantity=? WHERE ProductID=? AND ShopCartID=?" ;
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param( "iii" , $quantity, $pid, $cartid);
 	$stmt->execute();
 	$stmt->close();
+
 	$conn->close();
 	header("Location: shoppingCart.php");
 	exit;

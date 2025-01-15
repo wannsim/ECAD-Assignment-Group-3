@@ -86,6 +86,7 @@ echo "  <style>
         .product-details p {
             color: #777;
             font-size: 14px;
+			max-width:50%;
         }
         .product-options {
             margin-top: 20px;
@@ -223,6 +224,7 @@ WHERE
 		// To Do 3 (Practical 4): 
 		// Display the shopping cart content
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
+		$total_quantity = 0;
 		while ($row = $result->fetch_array()) {
 			$offerStartDate = new DateTime($row['OfferEndDate']); // Convert to DateTime object
 			$today = new DateTime(); 
@@ -230,6 +232,7 @@ WHERE
 			$daysDifference = (int)$dateDiff->format("%r%a"); // %r includes the sign (+/-)
 			$img = "./Images/products/$row[ProductImage]";
 			$product = "productDetails.php?pid=$row[ProductID]";
+			$total_quantity += $row["ShopCartQuantity"];
 
 			echo '<div class="product-container">';
 			echo '<a href="' . $product .'" class="product-link" style="text-decoration: none; color: inherit;">';
@@ -297,6 +300,7 @@ WHERE
 			echo "<input type = 'hidden' name = 'action' value = 'remove' />";
 			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
 			echo "<input type = 'image' src = 'images/trash-can.png' title = 'Remove Item'/>";
+			echo "</form>";
 			echo '</div>';
 			echo '</div>';
 
@@ -325,6 +329,10 @@ WHERE
 			}
 		}
 		echo '    <div class="checkout-container" style = "color:black">';
+		echo '        <div class="checkout-row">';
+		echo '            <span></span>';
+		echo "            <span><b>Total in Cart ($total_quantity items)</b></span>";
+		echo '        </div>';
 		echo '        <div class="checkout-row">';
 		echo '            <span>Subtotal</span>';
 		echo "            <span>S$".number_format($subTotal,2);
