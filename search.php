@@ -8,10 +8,10 @@ include("header.php"); // Include the Page Layout header
 <form name="frmSearch" method="get" action="">
     <div class="mb-3 row"> <!-- 1st row -->
         <div class="col-sm-9 offset-sm-3">
-            <span class="page-title">Product Search</span>
+            <span class="page-title" style="font-size:30px;">Product Search</span>
         </div>
     </div> <!-- End of 1st row -->
-    <div class="mb-3 row"> <!-- 2nd row -->
+    <div class="mb-3 row" style="font-size:30px;"> <!-- 2nd row -->
         <label for="keywords" 
                class="col-sm-3 col-form-label">Product Title:</label>
         <div class="col-sm-6">
@@ -40,15 +40,18 @@ if (isset($_GET["keywords"]) && trim($_GET['keywords']) != "") {
     $stmt->bind_param("ss", $keyword,$keyword); // Binding email parameter to prevent SQL injection
     $stmt->execute();
     $result = $stmt->get_result(); // Execute the SQL and get the returned result
+
+    echo "<div style='margin-left: 30px;'>"; // move search results towards the right
     echo "<h4 style='font-weight: bold;'>Search results for {$_GET['keywords']}:</h3>";
     if ($result->num_rows > 0) { // If found, display records
         while ($row = $result->fetch_array()) 
         {$product = "productDetails.php?pid=$row[ProductID]";
-        echo "<p><a href=$product>$row[ProductTitle]</a></p>";}
+        echo "<p '><a href=$product>$row[ProductTitle]</a></p>";}
     }
     else {
         echo "<h3 style='color:red'>No records found</h3>";
     }
+    echo "</div>"; 
 	// To Do (DIY): End of Code
 }
 
