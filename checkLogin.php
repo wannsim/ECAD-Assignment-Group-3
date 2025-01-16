@@ -42,11 +42,16 @@ if ($result->num_rows > 0) { // If found, display records
     }
     else{
         echo "<h3 style='color:red'>Invalid Login Credentials</h3>";
+        header("Location: login.php");
+        $_SESSION["Failed"] = 1;
     }
     }
 }
 else {
     echo "<h3 style='color:red'>Invalid Login Credentials</h3>";
+    header("Location: login.php");
+
+    $_SESSION["Failed"] = 1;
 }
 
 
