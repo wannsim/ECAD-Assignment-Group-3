@@ -4,7 +4,8 @@
         <!-- Navigation bar -->
         <ul class="navbar">
             <li><a href="index.php"><i class="fa-sharp fa-solid fa-house"></i><span>&nbsp;Home</span></a></li>
-            <li><a href="category.php"><i class="fa-solid fa-magnifying-glass"></i><span>&nbsp;Product Category</span></a></li>
+            <li><a href="search.php"><i class="fa-solid fa-magnifying-glass"></i><span>&nbsp;Product Search</span></a></li>
+            <li><a href="category.php"><img src = "https://cdn-icons-png.flaticon.com/128/4250/4250099.png" style="width:20px;"></i><span>&nbsp;Product Category</span></a></li>
             <li><a href="shoppingCart.php"><i class="fa-solid fa-cart-shopping"></i><span>&nbsp;Shopping Cart</span></a></li>
         </ul>
         <div class="profile">
