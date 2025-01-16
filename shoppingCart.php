@@ -17,6 +17,7 @@ echo "  <style>
         .breadcrumb {
             margin: 20px 0;
             font-size: 14px;
+			text-align: center;
         }
         .breadcrumb a {
             color: #007BFF;
@@ -32,6 +33,7 @@ echo "  <style>
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			text-align: center;
         }
         .cart-image {
             width: 150px;
@@ -388,7 +390,7 @@ WHERE
 				$formSubmitted = true; // Mark form as submitted
 			} 
 			echo '        <div class="checkout-row">';
-			echo '            <span>Delivery Mode</span>';
+			echo '   <span>Delivery Mode <p style="font-size:13px;color:red;">(Normal Delivery - Delivery within 2 working days)<br>(Express Delivery - Delivery within 24 hours)</p></span>';
 			// Display the form
 			echo '<form method="post">';
 			echo '    <select name="delivery" id="delivery" onchange="this.form.submit()">';

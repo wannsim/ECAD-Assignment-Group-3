@@ -56,7 +56,7 @@ if($_POST) //Post Data received from Shopping cart page.
 			  '&PAYMENTREQUEST_0_ITEMAMT='.urlencode($_SESSION["SubTotal"]). 
 			  '&PAYMENTREQUEST_0_SHIPPINGAMT='.urlencode($_SESSION["ShipCharge"]). 
 			  '&PAYMENTREQUEST_0_TAXAMT='.urlencode($_SESSION["Tax"]). 	
-			  '&BRANDNAME='.urlencode("Mamaya e-BookStore").
+			  '&BRANDNAME='.urlencode("Baby Shop").
 			  $paypal_data.				
 			  '&RETURNURL='.urlencode($PayPalReturnURL ).
 			  '&CANCELURL='.urlencode($PayPalCancelURL);	
@@ -129,8 +129,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 	if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
 	   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 	{
-		// To Do 5 (DIY): Update stock inventory in product table 
-		//                after successful checkout
 
 		foreach($_SESSION['Items'] as $key=>$item) {
 			$qry = "UPDATE product SET Quantity=Quantity-?
@@ -142,10 +140,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$stmt->close();
 		}
 		
-		
-		// End of To Do 5
 	
-		// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
 		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
 		$qry = "UPDATE shopcart SET OrderPlaced=1 , Quantity=?,
 		SubTotal=?, ShipCharge=?, Tax=?, Total=?
@@ -157,7 +152,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		$_SESSION["Tax"], $total,$_SESSION["Cart"]);
 		$stmt->execute();
 		$stmt->close();
-		// End of To Do 2
 		
 		//We need to execute the "GetTransactionDetails" API Call at this point 
 		//to get customer details
@@ -192,8 +186,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			
 			$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
 			
-			// To Do 3: Insert an Order record with shipping information
-			//          Get the Order ID and save it in session variable.
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
 			ShipEmail, ShopCartID)
 			VALUES (?, ?, ?, ?, ?)";
