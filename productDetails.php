@@ -64,8 +64,31 @@ while ($row = $result->fetch_array()) {
 
     // Right column - display the product's price
     $formattedPrice = number_format($row["Price"], 2);
-    echo "Price: <span style='font-weight: bold; color:red; font-size: 20px;'>S$$formattedPrice</span>";
 
+    if ($row["Offered"] == 1){
+        $currentDate = new DateTime();
+        $endDate = new DateTime($row["OfferEndDate"]);
+        
+        // Calculate the difference between the two dates
+        $dateDiff = $endDate->diff($currentDate);
+        
+        // Get the difference in days as an integer
+        $daysDifference = (int)$dateDiff->days;
+
+        // on offer 
+        if ($endDate > $currentDate){
+            $offerPrice = number_format($row["OfferedPrice"], 2);
+            echo "Price: <span style='font-weight: bold; font-size: 20px; text-decoration: line-through;'>S$$formattedPrice</span>";
+            echo "<span style='font-weight: bold; color:red; font-size: 30px;'>  S$$offerPrice</span>";
+        }
+        else{
+            echo "Price: <span style='font-weight: bold; color:red; font-size: 20px;'>S$$formattedPrice</span>";
+        }
+    }
+
+    else{
+        echo "Price: <span style='font-weight: bold; color:red; font-size: 20px;'>S$$formattedPrice</span>";
+    }
     echo "</div>"; // Close specifications container
 
     echo "</div>"; // Close right column
@@ -82,7 +105,28 @@ while ($row = $result->fetch_array()) {
     echo "<input type='hidden' name='action' value='add' />";
     echo "<input type='hidden' name='product_id' value='$pid' />";
     echo "Quantity: <input type='number' name='quantity' value='1' min='1' max='10' style='width: 60px; margin-right: 10px;' required />";
-    echo "<button class='btn btn-primary' type='submit'>Add to Cart</button>";
+    // check number of stock left
+
+    $qry = "SELECT Quantity
+            FROM Product 
+            WHERE ProductID = ?" ;
+
+    $stmt = $conn->prepare($qry);
+    $stmt->bind_param("i", $pid);
+    $stmt->execute();
+    $result3 = $stmt->get_result();
+    $stmt->close();
+
+    $row = $result3->fetch_array();
+    $stock = $row["Quantity"];
+    if ($stock <= 0){
+        // no stock left, disable button
+        echo "<button class='btn btn-secondary disabled' type='submit'>Add to Cart</button>";
+        echo "<p style='color: red; margin-right: 10px;'>Out of Stock</p>";
+    }
+    else {// if stock > 0
+        echo "<button class='btn btn-primary' type='submit'>Add to Cart</button>";
+    }
     echo "</form>";
     echo "</div>";
     // End of right column
