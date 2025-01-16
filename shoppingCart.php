@@ -186,6 +186,14 @@ echo "  <style>
         .apply-btn:hover {
             background-color: #4cae4c;
         }
+		@media(max-width:600px) {
+			.product-container{
+				flex-direction: column;
+			}
+			.checkout-container {
+				margin-left:50px;
+			}
+		}
     </style>";
 // Include the code that contains shopping cart's functions.
 // Current session is detected in "cartFunctions.php, hence need not start session here.
@@ -347,21 +355,45 @@ WHERE
 		if ($subTotal >= 200){
 			$_SESSION["ShipCharge"] = 0.00;
 			echo '        <div class="checkout-row">';
-			echo '            <span>Shipping</span>';
-			echo "            <span>(Free Shipping) S$".number_format(0,2);
-			echo "</span>";			echo '        </div>';
-		}
-		else{
-			$_SESSION["ShipCharge"] = 10.00;
+			echo '            <span>Delivery Mode</span>';
+			echo '           <span>Express Shipping</span>';
+			echo '        </div>';
 			echo '        <div class="checkout-row">';
 			echo '            <span>Shipping</span>';
-			echo "            <span>S$".number_format(10,2);
-			echo " 			  </span>";			echo '        </div>';
+			echo "            <span>(Free Shipping) S$".number_format(0,2);
+			echo "</span>";			
+			echo '        </div>';
+		}
+		else{
+			// Set default ShipCharge if not already set
+			if (!isset($_SESSION["ShipCharge"])) {
+				$_SESSION["ShipCharge"] = 10.00; // Default value
+			}
+
+			// Update ShipCharge if form is submitted
+			if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delivery'])) {
+				$_SESSION["ShipCharge"] = (float)$_POST['delivery'];
+			}
+
+			$_SESSION["ShipCharge"] = 10.00;
+			echo '        <div class="checkout-row">';
+			echo '            <span>Delivery Mode</span>';
+			echo '    <form method="post"><select name="delivery" id="delivery" onchange="this.form.submit()">
+							<option value="5"' . ($_SESSION["ShipCharge"] == 5 ? : '') . '>Normal Delivery</option>';
+			echo '          <option value="10"' . ($_SESSION["ShipCharge"] == 10 ? : '') . '>Express Delivery</option>';	
+			echo		' </select></form>';
+			echo '        </div>';
+			echo '        <div class="checkout-row">';
+			echo '            <span>Shipping</span>';
+			echo "            <span>S$".number_format($_SESSION["ShipCharge"],2);
+			echo " 			  </span>";			
+			echo '        </div>';
 		}
 		echo '        <div class="checkout-row checkout-total">';
 		echo '            <span>Total</span>';
 		echo "            <span>S$".number_format($subTotal + $_SESSION["Tax"] + $_SESSION["ShipCharge"],2);
-		echo " 			  </span>";			echo '        </div>';
+		echo " 			  </span>";			
+		echo '        </div>';
 
 
 		echo '        <div style="text-align: right;">';

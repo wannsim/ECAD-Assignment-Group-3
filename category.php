@@ -26,6 +26,8 @@ include("header.php"); // Include the Page Layout header
 
   .body{
     padding: 15px;
+    justify-content: center;
+
   }
 
   .card-title{
@@ -38,31 +40,12 @@ include("header.php"); // Include the Page Layout header
   p{
     font-size: 20px;
   }
-  @media(max-width:852px){
-  table{
-        text-align: center;
-        display: inline-block;
+  @media(max-width:600px) {
+    .row img{
+      width:150px;
     }
-    table td,tr{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width:auto;
-        padding: 10px;
-    }
-
-    table img{
-        width:100%;
-    }
-    /* p{
-      font-size: 25px;
-    } */
+    
   }
-  @media(max-width:450px){
-      table td{
-        padding: 5px;
-      }
-    }
 </style>
 <!-- Create a container, 60% width of viewport -->
 <div style="width:60%; margin:auto;">
