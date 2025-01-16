@@ -200,8 +200,24 @@ echo "  <style>
 include_once("cartFunctions.php");
 include("header.php"); // Include the Page Layout header
 
+/* if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delivery'])) {
+    $_SESSION["ShipCharge"] = (float)$_POST["delivery"];
+} elseif (!isset($_SESSION["ShipCharge"])) {
+    // Set a default ShipCharge if not already set
+    $_SESSION["ShipCharge"] = 10.00; // Default value
+}
 
+// Display the form
+echo '<form method="post">';
+echo '    <select name="delivery" id="delivery" onchange="this.form.submit()">';
+echo '        <option value="5"' . (isset($_SESSION["ShipCharge"]) && $_SESSION["ShipCharge"] == 5 ? ' selected' : '') . '>Normal Delivery</option>';
+echo '        <option value="10"' . (isset($_SESSION["ShipCharge"]) && $_SESSION["ShipCharge"] == 10 ? ' selected' : '') . '>Express Delivery</option>';
+echo '    </select>';
+echo '</form>';
 
+// Display the shipping charge
+echo '<p>Shipping Charge: S$' . number_format($_SESSION["ShipCharge"], 2) . '</p>';
+ */
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
 	include_once("mysql_conn.php");
@@ -365,29 +381,37 @@ WHERE
 			echo '        </div>';
 		}
 		else{
-			// Set default ShipCharge if not already set
-			if (!isset($_SESSION["ShipCharge"])) {
-				$_SESSION["ShipCharge"] = 10.00; // Default value
-			}
-
-			// Update ShipCharge if form is submitted
-			if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delivery'])) {
-				$_SESSION["ShipCharge"] = (float)$_POST['delivery'];
-			}
-
 			$_SESSION["ShipCharge"] = 10.00;
+			$formSubmitted = false; // Track if form was submitted
+			if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delivery'])) {
+				$_SESSION["ShipCharge"] = (float)$_POST["delivery"];
+				$formSubmitted = true; // Mark form as submitted
+			} 
 			echo '        <div class="checkout-row">';
 			echo '            <span>Delivery Mode</span>';
-			echo '    <form method="post"><select name="delivery" id="delivery" onchange="this.form.submit()">
-							<option value="5"' . ($_SESSION["ShipCharge"] == 5 ? : '') . '>Normal Delivery</option>';
-			echo '          <option value="10"' . ($_SESSION["ShipCharge"] == 10 ? : '') . '>Express Delivery</option>';	
-			echo		' </select></form>';
+			// Display the form
+			echo '<form method="post">';
+			echo '    <select name="delivery" id="delivery" onchange="this.form.submit()">';
+			echo '        <option value="5"' . (isset($_SESSION["ShipCharge"]) && $_SESSION["ShipCharge"] == 5 ? ' selected' : '') . '>Normal Delivery</option>';
+			echo '        <option value="10"' . (isset($_SESSION["ShipCharge"]) && $_SESSION["ShipCharge"] == 10 ? ' selected' : '') . '>Express Delivery</option>';
+			echo '    </select>';
+			echo '</form>';
 			echo '        </div>';
 			echo '        <div class="checkout-row">';
 			echo '            <span>Shipping</span>';
 			echo "            <span>S$".number_format($_SESSION["ShipCharge"],2);
 			echo " 			  </span>";			
 			echo '        </div>';
+			if ($formSubmitted) {
+				echo '<script>';
+				echo '    window.addEventListener("load", function() {';
+				echo '        var formElement = document.getElementById("delivery");';
+				echo '        if (formElement) {';
+				echo '            formElement.scrollIntoView({ behavior: "smooth" });';
+				echo '        }';
+				echo '    });';
+				echo '</script>';
+			}
 		}
 		echo '        <div class="checkout-row checkout-total">';
 		echo '            <span>Total</span>';
