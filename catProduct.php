@@ -98,7 +98,8 @@ include_once("mysql_conn.php");
 $cid = $_GET["cid"];
 
 // Form SQL to retrieve list of products associated to the Category ID
-$qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity
+$qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity, p.Offered, p.OfferedPrice, 
+                p.OfferStartDate, p.OfferEndDate
         FROM CatProduct cp
         INNER JOIN product p ON cp.ProductID=p.ProductID
         WHERE cp.CategoryID=?
@@ -130,7 +131,34 @@ while ($row = $result->fetch_array()) {
   echo "<img src='$img' />";
 
   echo "<div class='body'>";
-  echo "Price: <span style='font-weight: bold; color: red;'>$$formattedPrice</span>";
+  if ($row["Offered"] == 1){
+    $currentDate = new DateTime();
+    $endDate = new DateTime($row["OfferEndDate"]);
+    $startDate = new DateTime($row["OfferStartDate"]);
+    
+    // Calculate the difference between the two dates
+    $dateDiff = $endDate->diff($currentDate);
+    
+    // Get the difference in days as an integer
+    $daysDifference = (int)$dateDiff->days;
+
+    // on offer 
+    if ($endDate > $currentDate){
+        $offerPrice = number_format($row["OfferedPrice"], 2);
+        echo "Price: <span style='font-weight: bold; font-size: 20px; text-decoration: line-through;'>S$$formattedPrice</span>";
+        echo "<span style='font-weight: bold; color:red; font-size: 20px;'>  S$$offerPrice</span>";
+        echo "<p style='font-size:11px;' >From: " . $startDate->format('Y-m-d') . " to " . $endDate->format('Y-m-d') . "</p>";
+    }
+    else{
+        echo "Price: <span style='font-weight: bold; color:black; font-size: 20px;'>S$$formattedPrice</span>";
+    }
+  }
+
+    else{
+        echo "Price: <span style='font-weight: bold; color:black; font-size: 20px;'>S$$formattedPrice</span>";
+    }
+
+  // echo "Price: <span style='font-weight: bold; color: red;'>$$formattedPrice</span>";
   echo "</div>"; 
   echo "</div>"; 
   echo "</div>";
