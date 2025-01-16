@@ -218,7 +218,7 @@ WHERE
 	if ($result->num_rows > 0) {
 		// To Do 2 (Practical 4): Format and display 
 		// the page header and header row of shopping cart page
-		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>"; 
+		echo '<h1 style = "margin-top : -10px; text-align:center">Shopping Cart</h1>';
 		// To Do 5 (Practical 5):
 		// Declare an array to store the shopping cart items in session variable
 		$_SESSION["Items"]=array();
@@ -245,20 +245,20 @@ WHERE
 			echo '        <h3>' . $row["ProductTitle"] .'</h3>';
 			echo '        <h2 style = "margin-top:20px">' . $row["ProductDesc"] . '</h2>';
 			if ($row["Offered"] == 1 && $daysDifference >= 0){
-				echo '<h5 style = "margin-top:50px">$' . $row["OfferedPrice"] . "</h5>";
-				echo '<h6 style = "text-decoration: line-through;">$' . $row["Price"] . "</h6>";
+				echo '<h5 style = "margin-top:50px">$' . number_format($row["OfferedPrice"],2) . "</h5>";
+				echo '<h6 style = "text-decoration: line-through;">$' . number_format($row["Price"],2) . "</h6>";
 				echo '<p style="margin-top: 50px; background-color: green; color: white; padding: 10px; width: fit-content; border-radius: 5px;">Save ' . round(($row["Price"] - $row["OfferedPrice"]) / $row["Price"] * 100 / 10) * 10 . "%</p>";
 				echo "<p style = 'color:red'>$daysDifference days left !</p>";
 			}
 			else{
-				echo '<h5 style = "margin-top:50px">$' . $row["Price"] . "</h5>";
+				echo '<h5 style = "margin-top:50px">$' . number_format($row["Price"],2) . "</h5>";
 			}
 			echo '    </div>';
 			echo '    <div class="product-actions">'; // quantity
 			echo '        <div class="quantity">';
 			echo '<form id="cart-form" method="post" action="cartFunctions.php">';
 			echo '    <div class="quantity">';
-			echo '<input ';
+			echo '<input onChange="this.form.submit()"';
 			echo '            type="number" ';
 			echo '            id="quantity" ';
 			echo '            name="quantity" ';
@@ -288,10 +288,10 @@ WHERE
 			echo '</script>';
 			$final_price;
 			if ($row["Offered"] == 1 && $daysDifference >= 0){
-				$final_price = $row["OfferedPrice"];
+				$final_price = number_format($row["OfferedPrice"],2);
 			}
 			else{
-				$final_price = $row["Price"];
+				$final_price = number_format($row["Price"],2);
 			}
 			$subtotal = $final_price*$row["ShopCartQuantity"];
 			$subTotal += $subtotal;
@@ -379,7 +379,7 @@ WHERE
 	}
 	else {
 		// when shopping cart is empty
-		echo '<h1 >Shopping Cart</h1>';
+		echo '<h1 style = "margin-top : -10px; text-align:center">Shopping Cart</h1>';
 		echo '<div class="breadcrumb">';
 		echo '<a href="index.php" style = "color:white">Home</a> \\ <a href="shoppingcart.php" style = "color:white"> Shopping Cart</a>';
 		echo '</div>';
@@ -394,7 +394,7 @@ WHERE
 }
 else {
 // when shopping cart is empty
-	echo '<h1 style = "margin-top : -10px">Shopping Cart</h1>';
+	echo '<h1 style = "margin-top : -10px; text-align:center">Shopping Cart</h1>';
 	echo '<div class="breadcrumb">';
 	echo '<a href="index.php" style = "color:white">Home</a> \\ <a href="shoppingcart.php" style = "color:white"> Shopping Cart</a>';
 	echo '</div>';
