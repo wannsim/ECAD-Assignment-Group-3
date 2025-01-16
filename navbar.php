@@ -6,7 +6,7 @@
 else{
     $content1 = "<a href='logout.php'><i class='fa-solid fa-right-from-bracket fa-flip-horizontal'></i><span id='username'>Logout</span></a>";
     if (isset($_SESSION["NumCartItem"])) {
-        $content2 .=" (".$_SESSION["NumCartItem"].")";
+        $content2 =" (".$_SESSION["NumCartItem"].")";
     
 }}
 
@@ -24,12 +24,7 @@ else{
         <div class="profile">
             <!-- Create a dropdown navbar to change password, logout etc, past orders -->
             <?php
-                if (!isset($_SESSION["ShopperName"])){
-                    echo "<a href='login.php'><i class='fa-solid fa-right-to-bracket'></i><span id='username'>Login</span></a>";
-                }
-                else{
-                    echo "<a href='logout.php'><i class='fa-solid fa-right-from-bracket fa-flip-horizontal'></i><span id='username'>Logout</span></a>";
-                }
+                echo $content1;
             ?>
         </div>
     </header>
