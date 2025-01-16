@@ -13,6 +13,8 @@ if(isset($_SESSION["ShopperName"])) {
 }
 ?>
 <br><br>
+
+<h2 style="padding-left:30px">Welcome, <?php echo $content1;?></h2>
 <h1 style="text-align: center; font-size: 4em;">
      <img src="https://cdn-icons-png.flaticon.com/128/2568/2568424.png" alt="Baby Icon" 
      style="vertical-align: middle; width: 80px; height: 80px; margin-right: 10px;">
@@ -21,7 +23,6 @@ if(isset($_SESSION["ShopperName"])) {
     style="vertical-align: middle; width: 80px; height: 80px; margin-right: 10px;">
 </h1>
 
-<h2 style="padding-left:30px">Welcome, <?php echo $content1;?></h2>
 
 <style>
   .row img {

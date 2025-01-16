@@ -332,13 +332,14 @@ WHERE
 			echo '</div>';
 
 			
-			/*$_SESSION["Items"][]=array("productId"=>$row["ProductID"],
+			$_SESSION["Items"][]=array("productId"=>$row["ProductID"],
 			"name"=>$row["ProductTitle"],
 			"price"=>$row["Price"],
-			"quantity"=>$row["Quantity"]);
+			"quantity"=>$row["ShopCartQuantity"]);
 			// Accumulate the running sub-total
-			$subTotal += $row["Total"];*/
+			/* $subTotal += $row["Total"]; */
 		}
+		$_SESSION["SubTotal"] = round($subTotal,2);
 		$qry = "SELECT *
 				FROM gst
 				WHERE EffectiveDate <= NOW()
@@ -420,7 +421,7 @@ WHERE
 		echo "            <span>S$".number_format($subTotal + $_SESSION["Tax"] + $_SESSION["ShipCharge"],2);
 		echo " 			  </span>";			
 		echo '        </div>';
-
+		$_SESSION["Total"] = round($subTotal + $_SESSION["Tax"] + $_SESSION["ShipCharge"],2);
 
 		echo '        <div style="text-align: right;">';
 		echo "<form method='post' action='checkoutProcess.php'>";
