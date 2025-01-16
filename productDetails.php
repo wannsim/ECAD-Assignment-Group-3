@@ -78,6 +78,7 @@ while ($row = $result->fetch_array()) {
         // on offer 
         if ($endDate > $currentDate){
             $offerPrice = number_format($row["OfferedPrice"], 2);
+            echo "<p style = 'font-size: 25px;'>Offer<img src = 'https://cdn-icons-png.flaticon.com/128/726/726476.png' width = 35px;></p>";
             echo "Price: <span style='font-weight: bold; font-size: 20px; text-decoration: line-through;'>S$$formattedPrice</span>";
             echo "<span style='font-weight: bold; color:red; font-size: 30px;'>  S$$offerPrice</span>";
         }
