@@ -1,6 +1,6 @@
 <?php
 //Connection Parameters
-$servername = 'localhost';
+$servername = 'localhost:3308';
 $username = 'root';
 $userpwd = '';
 $dbname = 'ecad_asg1'; 
