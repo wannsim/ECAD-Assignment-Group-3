@@ -64,7 +64,7 @@ while ($row = $result->fetch_array()) {
 
     // Right column - display the product's price
     $formattedPrice = number_format($row["Price"], 2);
-    echo "Price: <span style='font-weight: bold; color:red;'>S$$formattedPrice</span>";
+    echo "Price: <span style='font-weight: bold; color:red; font-size: 20px;'>S$$formattedPrice</span>";
 
     echo "</div>"; // Close specifications container
 

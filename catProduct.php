@@ -6,18 +6,48 @@ include("header.php"); // Include the Page Layout header
 
 
 <style>
-  table a,tr{
+  .row img {
+    width: 200px;
+    height: 200px; /* Ensure consistent height */
+    object-fit: cover; /* Crop image to fit */
+    display: block; /* Remove inline spacing */
+    margin: auto; /* Center align */
+  }
+
+.card {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute content evenly */
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+.body {
+    margin-top: auto;
+    font-size: 14px;
+    text-align: center;
+  }
+  h2 a{
     color:black;
-    background-color: white;
   }
-  table img{
-    width:200px;
-    table-layout: fixed;
+  .row{
+    align-items: center;
+    text-align: center;
   }
-  table td{
-    padding:10px;
-    font-size:20px;
+
+  .body{
+    padding: 15px;
   }
+
   p{
     font-size: 20px;
   }
@@ -47,6 +77,9 @@ include("header.php"); // Include the Page Layout header
       }
     }
 </style>
+
+
+
 <!-- Create a container, 60% width of viewport -->
 <div style="width:60%; margin:auto;">
 <!-- Display Page Header -->
@@ -60,7 +93,6 @@ include("header.php"); // Include the Page Layout header
 <br>
 <?php 
 
-// Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php");
 
 $cid = $_GET["cid"];
@@ -69,7 +101,8 @@ $cid = $_GET["cid"];
 $qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity
         FROM CatProduct cp
         INNER JOIN product p ON cp.ProductID=p.ProductID
-        WHERE cp.CategoryID=?";
+        WHERE cp.CategoryID=?
+        ORDER BY p.ProductTitle ASC";
 
 $stmt = $conn->prepare($qry);
 $stmt->bind_param("i", $cid); // "i" - integer
@@ -79,46 +112,58 @@ $result = $stmt->get_result();
 // Close the statement to release resources
 $stmt->close();
 
+$count = 0;
+echo "<div class='container'>";
+echo "<div class='row'>";
 
-echo "<table>";
 // Display each category in a row
 while ($row = $result->fetch_array()) {
-  //echo "<div class='row' style='padding:5px'>"; // Start a new row
+  
+  echo "<div class='col-md-4' style='margin-bottom: 20px;'>";
+  echo "<div class='card'>";
 
-  // Left column - display a text link showing the category's name,
-  // display category's description in a new paragraph
-
-  echo "<tr>";
-  echo "<th colspan='2' style='text-align:center'>";
   $product = "productDetails.php?pid=$row[ProductID]";
   $formattedPrice = number_format($row["Price"], 2);
-  //echo "<div class='col-8'>"; // 67% of row width
+
   echo "<h2><a href=$product>$row[ProductTitle]</a></h2>";
-  echo "</th>";
-  echo "</tr>";
-  echo "<tr>";
-  echo "<td>";
-  // Right column - display the category's image
   $img = "./Images/products/$row[ProductImage]";
-  //echo "<div class='col-4'>"; // 33% of row width
   echo "<img src='$img' />";
-  echo "</td>";
-  echo "<td>";
+
+  echo "<div class='body'>";
   echo "Price: <span style='font-weight: bold; color: red;'>$$formattedPrice</span>";
-  echo "</td>";
-
-
-  echo "</tr>"; // End of a row
- // echo "</div>"; // End of arrow
-  echo "<tr>";
-  echo "</tr>";
+  echo "</div>"; 
+  echo "</div>"; 
+  echo "</div>";
+  $count++;
+  if ($count % 3 == 0) {
+    echo "</div><div class='row'>"; // Close the current row and start a new one
+  }
 }
-echo "</table>";
+
+// Close any unclosed rows
+if ($count % 3 != 0) {
+echo "</div>"; // Close the last row if it is incomplete
+}
+
+echo "</div>"; // Close the container
+
 
 $conn->close(); // Close database connnection
 echo "</div>"; // End of container
 include("footer.php"); // Include the Page Layout footer
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
