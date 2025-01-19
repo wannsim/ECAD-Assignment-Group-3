@@ -1,4 +1,41 @@
-﻿<?php 
+﻿<style>
+    .container1{
+    border-radius:15px;
+    display:flex;
+    justify-content:right;
+    }
+    input[type="number"]{
+        -moz-appearance: textfield;
+        text-align: center;
+        border:none;
+        font-size:25px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin:0;
+    }
+
+    button{
+        color:var(--green-color);
+        background-color:#ffffff;
+        border:none;
+        font-size: 25px;
+        cursor:pointer;
+    }
+
+    #decrement{
+        padding: 15px 5px 15px 15px;
+        border-radius: 30px 0 0 30px;
+    }
+    #increment{
+        padding: 15px 15px 15px 5px;
+        border-radius: 0 30px 30px 0;
+    }
+</style>
+
+<?php 
 session_start(); // Detect the current session
 include("header.php"); // Include the Page Layout header
 ?>
@@ -105,7 +142,39 @@ while ($row = $result->fetch_array()) {
     echo "<form action='cartFunctions.php' method='post' style='text-align: right; margin-top: 20px;'>";
     echo "<input type='hidden' name='action' value='add' />";
     echo "<input type='hidden' name='product_id' value='$pid' />";
-    echo "Quantity: <input type='number' name='quantity' value='1' min='1' max='10' style='width: 60px; margin-right: 10px;' required />";
+    echo "<div class='container1'>";
+    echo "<span style='position: relative;top: 15;
+    right: 10;'>Quantity: </span>";
+    echo "<button id='decrement' onclick='stepper(this)' style='font-size: 25px;'> - </button>";
+    echo "<input type='number' name='quantity' id='my-input' value='1' min='1' max='10' step='1' required />";
+    echo "<button id='increment' onclick='stepper(this)' style='font-size: 25px;'> + </button>";
+    echo "</div>";
+    
+
+    echo "<script>";
+    echo "document
+            .getElementById('increment')
+            .addEventListener('click', function (event) {
+                event.preventDefault();
+            });";
+    echo "document
+    .getElementById('decrement')
+    .addEventListener('click', function (event) {
+        event.preventDefault();
+    });";
+    echo "const myInput = document.getElementById('my-input');";
+    echo "function stepper(btn) {";
+    echo "let id = btn.getAttribute('id');";
+    echo "let min = myInput.getAttribute('min');";
+    echo "let max = myInput.getAttribute('max');";
+    echo "let step=myInput.getAttribute('step');";
+    echo "let value = myInput.getAttribute('value');";
+    echo "let calcStep=(id=='increment')?(step*1):(step*-1);";
+    echo "let newValue = parseInt(value) + calcStep;";
+    echo "if(newValue >= min && newValue <= max){";
+    echo "myInput.setAttribute('value', newValue);}}";
+    echo "</script>";
+    echo "<br>";
     // check number of stock left
 
     $qry = "SELECT Quantity
@@ -131,10 +200,7 @@ while ($row = $result->fetch_array()) {
     echo "</form>";
     echo "</div>";
     // End of right column
-    echo "</div>"; // End of row   
-
-// To Do 2:  Ending ....
-
+    
 $conn->close(); // Close database connnection
 echo "</div>"; // End of container
 include("footer.php"); // Include the Page Layout footer

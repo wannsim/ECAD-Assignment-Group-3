@@ -114,7 +114,7 @@ echo "  <style>
             justify-content: space-between;
             align-items: flex-end;
         }
-        .quantity {
+/*         .quantity {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
@@ -130,7 +130,7 @@ echo "  <style>
             text-align: center;
             border: 1px solid #ccc;
             margin: 0 5px;
-        }
+        } */
         .price {
             font-size: 18px;
             font-weight: bold;
@@ -183,11 +183,16 @@ echo "  <style>
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px; /* Larger font size */
+            font-size: 16px;s /* Larger font size */
         }
         .apply-btn:hover {
             background-color: #4cae4c;
         }
+			#title{
+				margin-top:-10px;
+			}
+		b{
+		font-size:0px;}
 		@media(max-width:600px) {
 			.product-container{
 				flex-direction: column;
@@ -195,7 +200,49 @@ echo "  <style>
 			.checkout-container {
 				margin-left:50px;
 			}
+			.product-image img{
+			width: 100%;
+			}
+			#title{
+				margin-top:-80px;
+			}
 		}
+    .container1{
+    border-radius:15px;
+    display:flex;
+    justify-content:right;
+    }
+    input[type='number']{
+        -moz-appearance: textfield;
+        text-align: center;
+        border:none;
+        font-size:25px;
+		background-color: var(--green-color);
+		color:white;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin:0;
+    }
+
+    button{
+        color:white;
+        background-color:var(--green-color);
+        border:none;
+        font-size: 25px;
+        cursor:pointer;
+    }
+
+    #decrement{
+        padding: 15px 5px 15px 15px;
+        border-radius: 30px 0 0 30px;
+    }
+    #increment{
+        padding: 15px 15px 15px 5px;
+        border-radius: 0 30px 30px 0;
+    }
     </style>";
 // Include the code that contains shopping cart's functions.
 // Current session is detected in "cartFunctions.php, hence need not start session here.
@@ -244,7 +291,7 @@ WHERE
 	if ($result->num_rows > 0) {
 		// To Do 2 (Practical 4): Format and display 
 		// the page header and header row of shopping cart page
-		echo '<h1 style = "margin-top : -10px; text-align:center">Shopping Cart</h1>';
+		echo '<h1 id="title" style = " text-align:center">Shopping Cart</h1>';
 		// To Do 5 (Practical 5):
 		// Declare an array to store the shopping cart items in session variable
 		$_SESSION["Items"]=array();
@@ -283,7 +330,30 @@ WHERE
 			echo '    <div class="product-actions">'; // quantity
 			echo '        <div class="quantity">';
 			echo '<form id="cart-form" method="post" action="cartFunctions.php">';
-			echo '    <div class="quantity">';
+			
+			
+			echo "<div class='container1'>";
+			echo "<span style='position: relative;top: 16;
+			right: 10; font-size: 20px;'>Quantity: </span>";
+			echo "<button id='decrement' onclick='stepper(this)' style='font-size: 25px;'> - </button>";
+			echo '<input onChange="this.form.submit()"';
+			echo '            type="number" ';
+			echo '            id="my-input" ';
+			echo '            name="quantity" min="1" ';
+			echo '            value="' . $row["ShopCartQuantity"] . '" ';
+			echo '            max="' . $row["Quantity"] . '" ';
+			echo '            oninput="checkQuantity(this)"'; // Add validation for numeric input
+			echo '            step="1"';
+			echo '        />';
+			echo "<button id='increment' onclick='stepper(this)' style='font-size: 25px;'> + </button>";
+			echo "</div>";
+			
+
+			
+
+
+
+			/* echo '    <div class="quantity">';
 			echo '<input onChange="this.form.submit()"';
 			echo '            type="number" ';
 			echo '            id="quantity" ';
@@ -293,12 +363,35 @@ WHERE
 			echo '            oninput="checkQuantity(this)"'; // Add validation for numeric input
 			echo '            style="height:30px;width:100px"';
 			echo '        />';
-			echo '    </div>';
+			echo '    </div>'; */
 			echo '    <input type="hidden" name="product_id" value="' . $row["ProductID"] . '">';
 			echo '    <input type="hidden" name="action" value="update">';
-			echo '    <p>In stock: ' . $row["Quantity"] . '</p>';
+			echo '   <br> <p style="text-align:center;font-size: 20px;">In stock: ' . $row["Quantity"] . '</p>';
 			echo '</form>';
 			echo '    </div>';
+			echo "<script>";
+			/* echo "document
+					.getElementById('increment')
+					.addEventListener('click', function (event) {
+						event.preventDefault();
+					});";
+			echo "document
+			.getElementById('decrement')
+			.addEventListener('click', function (event) {
+				event.preventDefault();
+			});"; */
+			echo "const myInput = document.getElementById('my-input');";
+			echo "function stepper(btn) {";
+			echo "let id = btn.getAttribute('id');";
+			echo "let min = myInput.getAttribute('min');";
+			echo "let max = myInput.getAttribute('max');";
+			echo "let step=myInput.getAttribute('step');";
+			echo "let value = myInput.getAttribute('value');";
+			echo "let calcStep=(id=='increment')?(step*1):(step*-1);";
+			echo "let newValue = parseInt(value) + calcStep;";
+			echo "if(newValue >= min && newValue <= max){";
+			echo "myInput.setAttribute('value', newValue);}}";
+			echo "</script>";
 			echo '<script>';
 			echo '    // Function to check the entered quantity';
 			echo '    function checkQuantity(input) {';
@@ -323,7 +416,7 @@ WHERE
 			$subTotal += $subtotal;
 			echo "<div class='price'>S$".number_format ($subtotal,2);
 			echo "</div>";
-			echo "<form action = 'cartFunctions.php' method = 'post'>";
+			echo "<form id='removeform' action = 'cartFunctions.php' method = 'post'>";
 			echo "<input type = 'hidden' name = 'action' value = 'remove' />";
 			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
 			echo "<input type = 'image' src = 'images/trash-can.png' title = 'Remove Item'/>";
