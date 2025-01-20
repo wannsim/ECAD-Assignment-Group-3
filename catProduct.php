@@ -102,8 +102,7 @@ while ($row = $result->fetch_array()) {
   $formattedPrice = number_format($row["Price"], 2);
 
   $img = "./Images/products/$row[ProductImage]";
-  echo "<a href=$product>$row[ProductTitle]>";
-  echo "<img src='$img' /></a>";
+  echo "<img src='$img' />";
   echo "<h2><a style='text-decoration:none;' href=$product>$row[ProductTitle]</a></h2>";
  
 

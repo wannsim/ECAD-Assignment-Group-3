@@ -4,7 +4,7 @@ include("header.php"); // Include the Page Layout header
 ?>
 <style>
   .row img {
-    height: 200px; /* Ensure consistent height */
+    height: 150px; /* Ensure consistent height */
     object-fit: cover; /* Crop image to fit */
     display: block; /* Remove inline spacing */
     margin: auto; /* Center align */
@@ -113,6 +113,7 @@ include("header.php"); // Include the Page Layout header
             <button class="btn btn-primary" type="submit">Filter</button>
         </div>
     </div>
+</div>
 </form>
 
  <!-- Create a container, 60% width of viewport -->
@@ -203,7 +204,6 @@ while ($row = $result->fetch_array()) {
     echo "<div class='card'>";
     $formattedPrice = number_format($row["Price"], 2);
 
-    
     $img = "./Images/products/$row[ProductImage]";
     echo "<a href=$product>";
     echo "<img src='$img' /></a>";

@@ -12,7 +12,7 @@ include("header.php"); // Include the Page Layout header
   }
 
 .card {
-    height: 400px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Distribute content evenly */
