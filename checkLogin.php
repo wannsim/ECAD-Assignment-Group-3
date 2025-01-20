@@ -20,8 +20,7 @@ $result = $stmt->get_result(); // Execute the SQL and get the returned result
 if ($result->num_rows > 0) { // If found, display records
     while ($row = $result->fetch_array()) 
     {
-        $hashed_pwd = $row["Password"];
-        if(password_verify($pwd,$hashed_pwd) == true || ($row["Password"] == "ecader" && $row["Email"] == "ecader@np.edu.sg")){
+        if($row["Password"] == $pwd){
         $_SESSION["ShopperName"] = $row["Name"];
         $_SESSION["ShopperID"] = $row["ShopperID"];
         

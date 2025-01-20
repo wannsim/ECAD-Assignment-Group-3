@@ -25,9 +25,7 @@ $loginFailed = isset($_SESSION["Failed"]) && $_SESSION["Failed"] == 1;
 
         .container {
             max-width: 500px;
-            margin: auto;
-            margin-top: 100px;
-            padding-bottom: 200px;
+            margin-top: -20px;
         }
 
         .card {
@@ -35,7 +33,7 @@ $loginFailed = isset($_SESSION["Failed"]) && $_SESSION["Failed"] == 1;
             border-radius: 15px;
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
             background-color: white;
-            padding: 40px;
+            padding: 30px;
         }
 
         h3 {
