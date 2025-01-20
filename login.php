@@ -3,7 +3,7 @@
 include("header.php");
 // Start the session
 session_start();
-
+session_destroy(); 
 // Check if login failed
 $loginFailed = isset($_SESSION["Failed"]) && $_SESSION["Failed"] == 1;
 
