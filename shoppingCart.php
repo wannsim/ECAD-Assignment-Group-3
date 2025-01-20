@@ -236,11 +236,11 @@ echo "  <style>
     }
 
     #decrement{
-        padding: 15px 5px 15px 15px;
+        padding: 5px 0px 5px 10px;
         border-radius: 30px 0 0 30px;
     }
     #increment{
-        padding: 15px 15px 15px 5px;
+        padding: 5px 10px 5px 0px;
         border-radius: 0 30px 30px 0;
     }
     </style>";
@@ -335,7 +335,7 @@ WHERE
 			echo "<div class='container1'>";
 			echo "<span style='position: relative;top: 16;
 			right: 10; font-size: 20px;'>Quantity: </span>";
-			echo "<button id='decrement' onclick='stepper(this)' style='font-size: 25px;'> - </button>";
+			echo "<button id='decrement' onclick='stepper(this)' style='font-size: 35px;'> - </button>";
 			echo '<input onChange="this.form.submit()"';
 			echo '            type="number" ';
 			echo '            id="my-input" ';
@@ -343,9 +343,9 @@ WHERE
 			echo '            value="' . $row["ShopCartQuantity"] . '" ';
 			echo '            max="' . $row["Quantity"] . '" ';
 			echo '            oninput="checkQuantity(this)"'; // Add validation for numeric input
-			echo '            step="1"';
+			echo '            step="1" style="font-size: 30px"';
 			echo '        />';
-			echo "<button id='increment' onclick='stepper(this)' style='font-size: 25px;'> + </button>";
+			echo "<button id='increment' onclick='stepper(this)' style='font-size: 30px;'> + </button>";
 			echo "</div>";
 			
 

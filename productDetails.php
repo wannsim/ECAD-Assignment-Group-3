@@ -26,11 +26,11 @@
     }
 
     #decrement{
-        padding: 15px 5px 15px 15px;
+        padding: 5px 0px 5px 10px;
         border-radius: 30px 0 0 30px;
     }
     #increment{
-        padding: 15px 15px 15px 5px;
+        padding: 5px 10px 5px 0px;
         border-radius: 0 30px 30px 0;
     }
 </style>

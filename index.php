@@ -14,7 +14,6 @@ if(isset($_SESSION["ShopperName"])) {
 ?>
 <br><br>
 
-<h2 style="padding-left:30px">Welcome, <?php echo $content1;?></h2>
 <h1 style="text-align: center; font-size: 4em;">
      <img src="https://cdn-icons-png.flaticon.com/128/2568/2568424.png" alt="Baby Icon" 
      style="vertical-align: middle; width: 80px; height: 80px; margin-right: 10px;">
@@ -22,6 +21,7 @@ if(isset($_SESSION["ShopperName"])) {
     <img src="https://cdn-icons-png.flaticon.com/128/2568/2568424.png" alt="Baby Icon" 
     style="vertical-align: middle; width: 80px; height: 80px; margin-right: 10px;">
 </h1>
+<h2 style="padding-left:30px; text-align:center;">Welcome, <?php echo $content1;?></h2>
 
 
 <style>
@@ -98,8 +98,7 @@ if(isset($_SESSION["ShopperName"])) {
 </style>
 
 <?php
-echo "<span class='page-title' style='font-size: 3em; text-align: center;
- display: block; width: 100%; margin: auto;'>OFFER Products!</span>";
+
 
 // Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php"); 
@@ -110,6 +109,8 @@ $result = $stmt->get_result();
 
 echo "<div class='container'>";
 echo "<div class='row'>";
+echo "<span class='page-title' style='font-size: 3em; text-align: left;
+ display: block; width: 100%; '>OFFER Products!</span>";
 $count = 0;
 
 while ($row = $result->fetch_array()) {
