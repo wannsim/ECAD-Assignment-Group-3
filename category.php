@@ -3,48 +3,50 @@ session_start(); // Detect the current session
 include("header.php"); // Include the Page Layout header
 ?>
 <style>
-  h2 a{
-    color:black;
+   .row img {
+    width: 200px;
+    height: 200px; /* Ensure consistent height */
+    object-fit: cover; /* Crop image to fit */
+    display: block; /* Remove inline spacing */
+    margin: auto; /* Center align */
   }
-  table a,tr{
-    color:black;
-    background-color: white;
+
+.card {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute content evenly */
     align-items: center;
     text-align: center;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
-  .card{
-    align-items: center;
-    height: 400px;
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+.body {
+    margin-top: auto;
+    font-size: 14px;
+    text-align: center;
+  }
+  h2 a{
+    color:black;
   }
   .row{
     align-items: center;
     text-align: center;
   }
-  .row img{
-    width:200px;
-  }
 
   .body{
     padding: 15px;
-    justify-content: center;
-
   }
 
-  .card-title{
-    font-size: 14px;
-  }
-  table td{
-    padding:10px;
-    font-size:20px;
-  }
   p{
     font-size: 20px;
-  }
-  @media(max-width:600px) {
-    .row img{
-      width:150px;
-    }
-    
   }
 </style>
 <!-- Create a container, 60% width of viewport -->
@@ -77,11 +79,12 @@ while ($row = $result->fetch_array()) {
   echo "<div class='col-md-4' style='margin-bottom: 20px;'>";
   echo "<div class='card'>";
 
+  $img = "./Images/category/$row[CatImage]";
   $catname = urlencode($row["CatName"]);
   $catproduct = "catProduct.php?cid=$row[CategoryID]&catName=$catname";
-  echo "<h2><a href=$catproduct>$row[CatName]</a></h2>";
-  $img = "./Images/category/$row[CatImage]";
-  echo "<img src='$img' />";
+  echo "<a href=$catproduct>$row[CatName]>";
+  echo "<img src='$img'/></a>";
+  echo "<h2 ><a style='text-decoration:none;' href=$catproduct>$row[CatName] </a></h2>";
 
   echo "<div class='body'>";
   echo "<h5 class='card-title'>$row[CatDesc]</h5>";

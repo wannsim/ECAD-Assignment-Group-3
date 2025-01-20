@@ -57,6 +57,7 @@ $stmt->close();
 // To Do 1:  Display Product information. Starting ....
 
 while ($row = $result->fetch_array()) {
+    $stock = $row["Quantity"];
     // Display Page Header -
     // Pr oduct's name is read from the "ProductTitle" column of "product" table.
     echo "<div class='row' >";
@@ -136,59 +137,39 @@ while ($row = $result->fetch_array()) {
     // echo "<div class='col-sm-3' style='vertical-align: top; padding:5px'>";
     }
 
-    // To Do 1: Ending...
-
-    // To Do 2: Create a Form for adding the product to shopping cart. Starting...
+    echo "<br>";
     echo "<form action='cartFunctions.php' method='post' style='text-align: right; margin-top: 20px;'>";
     echo "<input type='hidden' name='action' value='add' />";
     echo "<input type='hidden' name='product_id' value='$pid' />";
     echo "<div class='container1'>";
-    echo "<span style='position: relative;top: 15;
-    right: 10;'>Quantity: </span>";
-    echo "<button id='decrement' onclick='stepper(this)' style='font-size: 25px;'> - </button>";
-    echo "<input type='number' name='quantity' id='my-input' value='1' min='1' max='10' step='1' required />";
-    echo "<button id='increment' onclick='stepper(this)' style='font-size: 25px;'> + </button>";
+    echo "<span style='position: relative; top: 15px; right: 10px;'>Quantity: </span>";
+    echo "<button id='decrement' type='button' style='font-size: 25px;'> - </button>";
+    echo "<input type='number' name='quantity' id='my-input' value='1' min='1' max='".intval($stock)."' step='1' required />";
+    echo "<button id='increment' type='button' style='font-size: 25px;'> + </button>";
     echo "</div>";
-    
 
     echo "<script>";
-    echo "document
-            .getElementById('increment')
-            .addEventListener('click', function (event) {
-                event.preventDefault();
-            });";
-    echo "document
-    .getElementById('decrement')
-    .addEventListener('click', function (event) {
-        event.preventDefault();
-    });";
     echo "const myInput = document.getElementById('my-input');";
-    echo "function stepper(btn) {";
-    echo "let id = btn.getAttribute('id');";
-    echo "let min = myInput.getAttribute('min');";
-    echo "let max = myInput.getAttribute('max');";
-    echo "let step=myInput.getAttribute('step');";
-    echo "let value = myInput.getAttribute('value');";
-    echo "let calcStep=(id=='increment')?(step*1):(step*-1);";
-    echo "let newValue = parseInt(value) + calcStep;";
-    echo "if(newValue >= min && newValue <= max){";
-    echo "myInput.setAttribute('value', newValue);}}";
+    echo "const max = ".intval($stock).";";
+    echo "const stepper = (btn) => {";
+    echo "  const min = parseInt(myInput.getAttribute('min'));";
+    echo "  const step = parseInt(myInput.getAttribute('step'));";
+    echo "  let value = parseInt(myInput.value);";
+    echo "  let calcStep = (btn.id === 'increment') ? step : -step;";
+    echo "  let newValue = value + calcStep;";
+    echo "  if (newValue >= min && newValue <= max) {";
+    echo "    myInput.value = newValue;";
+    echo "  }";
+    echo "};";
+    echo "document.getElementById('increment').addEventListener('click', function () { stepper(this); });";
+    echo "document.getElementById('decrement').addEventListener('click', function () { stepper(this); });";
     echo "</script>";
-    echo "<br>";
-    // check number of stock left
 
-    $qry = "SELECT Quantity
-            FROM Product 
-            WHERE ProductID = ?" ;
+    
+    echo '<p style="font-size: 20px; position: relative; top: 5px; right: 10px;">In stock: ' . $stock . '</p>';
 
-    $stmt = $conn->prepare($qry);
-    $stmt->bind_param("i", $pid);
-    $stmt->execute();
-    $result3 = $stmt->get_result();
-    $stmt->close();
 
-    $row = $result3->fetch_array();
-    $stock = $row["Quantity"];
+
     if ($stock <= 0){
         // no stock left, disable button
         echo "<button class='btn btn-secondary disabled' type='submit'>Add to Cart</button>";

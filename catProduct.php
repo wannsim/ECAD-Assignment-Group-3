@@ -15,7 +15,7 @@ include("header.php"); // Include the Page Layout header
   }
 
 .card {
-    height: 500px;
+    height: 450px;
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Distribute content evenly */
@@ -51,31 +51,6 @@ include("header.php"); // Include the Page Layout header
   p{
     font-size: 20px;
   }
-  @media(max-width:852px){
-  table{
-        text-align: center;
-        display: inline-block;
-    }
-    table td,tr{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width:auto;
-        padding: 10px;
-    }
-
-    table img{
-        width:100%;
-    }
-    /* p{
-      font-size: 25px;
-    } */
-  }
-  @media(max-width:450px){
-      table td{
-        padding: 5px;
-      }
-    }
 </style>
 
 
@@ -126,9 +101,11 @@ while ($row = $result->fetch_array()) {
   $product = "productDetails.php?pid=$row[ProductID]";
   $formattedPrice = number_format($row["Price"], 2);
 
-  echo "<h2><a href=$product>$row[ProductTitle]</a></h2>";
   $img = "./Images/products/$row[ProductImage]";
-  echo "<img src='$img' />";
+  echo "<a href=$product>$row[ProductTitle]>";
+  echo "<img src='$img' /></a>";
+  echo "<h2><a style='text-decoration:none;' href=$product>$row[ProductTitle]</a></h2>";
+ 
 
   echo "<div class='body'>";
   if ($row["Offered"] == 1){
