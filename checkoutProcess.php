@@ -185,7 +185,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			               $httpParsedResponseAr["SHIPTOCOUNTRYNAME"]);
 			
 			$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
-			
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
 			ShipEmail, ShopCartID)
 			VALUES (?, ?, ?, ?, ?)";

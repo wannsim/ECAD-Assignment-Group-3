@@ -15,10 +15,10 @@ include("header.php"); // Include the Page Layout header
   }
 
 .card {
-    height: 450px;
+    height: 500px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Distribute content evenly */
+    justify-content: space-around; /* Distribute content evenly */
     align-items: center;
     text-align: center;
     padding: 10px;

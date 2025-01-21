@@ -11,8 +11,8 @@ include("header.php"); // Include the Page Layout header
     margin: auto; /* Center align */
   }
 
-.card {
-    height: 400px;
+  .card {
+    height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Distribute content evenly */
@@ -22,6 +22,7 @@ include("header.php"); // Include the Page Layout header
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 
+
 .card-title {
     font-size: 16px;
     font-weight: bold;
@@ -29,7 +30,6 @@ include("header.php"); // Include the Page Layout header
   }
 
 .body {
-    margin-top: auto;
     font-size: 14px;
     text-align: center;
   }
@@ -47,6 +47,9 @@ include("header.php"); // Include the Page Layout header
 
   p{
     font-size: 20px;
+  }
+  .product-link{
+    height:200px;
   }
 </style>
 <!-- Create a container, 60% width of viewport -->
@@ -84,7 +87,7 @@ while ($row = $result->fetch_array()) {
   $catproduct = "catProduct.php?cid=$row[CategoryID]&catName=$catname";
   echo "<a href=$catproduct>$row[CatName]>";
   echo "<img src='$img'/></a>";
-  echo "<h2 ><a style='text-decoration:none;' href=$catproduct>$row[CatName] </a></h2>";
+  echo "<h2 ><a style='text-decoration:none; color: inherit;'href=$catproduct>$row[CatName] </a></h2>";
 
   echo "<div class='body'>";
   echo "<h5 class='card-title'>$row[CatDesc]</h5>";
