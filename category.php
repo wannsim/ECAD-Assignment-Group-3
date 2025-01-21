@@ -32,6 +32,9 @@ include("header.php"); // Include the Page Layout header
 .body {
     font-size: 14px;
     text-align: center;
+    margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
   }
   h2 a{
     color:black;
@@ -41,9 +44,6 @@ include("header.php"); // Include the Page Layout header
     text-align: center;
   }
 
-  .body{
-    padding: 15px;
-  }
 
   p{
     font-size: 20px;

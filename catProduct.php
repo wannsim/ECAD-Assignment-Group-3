@@ -15,7 +15,7 @@ include("header.php"); // Include the Page Layout header
   }
 
 .card {
-    height: 500px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: space-around; /* Distribute content evenly */
@@ -35,6 +35,10 @@ include("header.php"); // Include the Page Layout header
     margin-top: auto;
     font-size: 14px;
     text-align: center;
+    
+    margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
   }
   h2 a{
     color:black;
@@ -44,9 +48,6 @@ include("header.php"); // Include the Page Layout header
     text-align: center;
   }
 
-  .body{
-    padding: 15px;
-  }
 
   p{
     font-size: 20px;
