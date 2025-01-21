@@ -11,7 +11,7 @@ include("header.php"); // Include the Page Layout header
     margin: auto; /* Center align */
   }
 
-  .card {
+.card {
     height: 500px;
     display: flex;
     flex-direction: column;

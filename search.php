@@ -4,7 +4,7 @@ include("header.php"); // Include the Page Layout header
 ?>
 <style>
   .row img {
-    height: 200px; /* Ensure consistent height */
+    height: 150px; /* Ensure consistent height */
     object-fit: cover; /* Crop image to fit */
     display: block; /* Remove inline spacing */
     margin: auto; /* Center align */
@@ -113,6 +113,7 @@ include("header.php"); // Include the Page Layout header
             <button class="btn btn-primary" type="submit">Filter</button>
         </div>
     </div>
+</div>
 </form>
 
  <!-- Create a container, 60% width of viewport -->
@@ -126,13 +127,13 @@ include("header.php"); // Include the Page Layout header
     <br>
 <?php
 
-    $keywords = isset($_GET['keywords']) && trim($_GET['keywords']) != "" ? "%" . $_GET['keywords'] . "%" : null;
-    $availability = isset($_GET['availability']) && $_GET['availability'] !== "" ? $_GET['availability'] : null;
-    $minPrice = isset($_GET['minPrice']) && is_numeric($_GET['minPrice']) ? $_GET['minPrice'] : null;
-    $maxPrice = isset($_GET['maxPrice']) && is_numeric($_GET['maxPrice']) ? $_GET['maxPrice'] : null;
-    $offers = isset($_GET['offers']) && $_GET['offers'] !== "" ? $_GET['offers'] : null;
+$keywords = isset($_GET['keywords']) && trim($_GET['keywords']) != "" ? "%" . $_GET['keywords'] . "%" : null;
+$availability = isset($_GET['availability']) && $_GET['availability'] !== "" ? $_GET['availability'] : null;
+$minPrice = isset($_GET['minPrice']) && is_numeric($_GET['minPrice']) ? $_GET['minPrice'] : null;
+$maxPrice = isset($_GET['maxPrice']) && is_numeric($_GET['maxPrice']) ? $_GET['maxPrice'] : null;
+$offers = isset($_GET['offers']) && $_GET['offers'] !== "" ? $_GET['offers'] : null;
 
-    if ($keywords != "" || $availability != "" || $minPrice != "" || $maxPrice != "" || $offers != "" ) {
+if ($keywords != "" || $availability != "" || $minPrice != "" || $maxPrice != "" || $offers != "" ) {
 
     include_once("mysql_conn.php");
     // Build query dynamically
@@ -190,76 +191,82 @@ else{
     $result = $conn->query($qry);
 }
     
-$count = 0;
-echo "<div class='container'>";
-echo "<div class='row'>";
-
-// Display each category in a row
-while ($row = $result->fetch_array()) {
-    
-    echo "<div class='col-md-4' style='margin-bottom: 20px;'>";
-    $product = "productDetails.php?pid=$row[ProductID]";
-    
-    echo "<div class='card'>";
-    $formattedPrice = number_format($row["Price"], 2);
-
-    
-    $img = "./Images/products/$row[ProductImage]";
-    echo "<a href=$product>";
-    echo "<img src='$img' /></a>";
-    echo "<h2><a href=".$product." style='text-decoration:none;'>$row[ProductTitle]</a></h2>";
-    echo "<div class='body'>";
-    if ($row["Offered"] == 1){
-    $currentDate = new DateTime();
-    $endDate = new DateTime($row["OfferEndDate"]);
-    $startDate = new DateTime($row["OfferStartDate"]);
-    
-    // Calculate the difference between the two dates
-    $dateDiff = $endDate->diff($currentDate);
-    
-    // Get the difference in days as an integer
-    $daysDifference = (int)$dateDiff->days;
-
-    // on offer 
-    if ($endDate > $currentDate){
-        $offerPrice = number_format($row["OfferedPrice"], 2);
-        echo "Price: <span style='font-weight: bold; font-size: 20px; text-decoration: line-through;'>S$$formattedPrice</span>";
-        echo "<span style='font-weight: bold; color:red; font-size: 20px;'>  S$$offerPrice</span>";
-        echo "<p style='font-size:11px;' >From: " . $startDate->format('Y-m-d') . " to " . $endDate->format('Y-m-d') . "</p>";
-    }
-    else{
-        echo "Price: <span style='font-weight: bold; color:black; font-size: 20px;'>S$$formattedPrice</span>";
-    }
-    }
-
-    else{
-        echo "Price: <span style='font-weight: bold; color:black; font-size: 20px;'>S$$formattedPrice</span>";
-    }
-    
-    // echo "Price: <span style='font-weight: bold; color: red;'>$$formattedPrice</span>";
-    echo "</div>";
-    echo "</div>"; 
-    echo "</div>";
-    $count++;
-    if ($count % 3 == 0) {
-    echo "</div><div class='row'>"; // Close the current row and start a new one
-    }
-    
+// Check if there are any results
+if ($result->num_rows === 0){
+    echo "<h3 style='color:red'>No records found</h3>";
 }
 
-// Close any unclosed rows
-if ($count % 3 != 0) {
-echo "</div>"; // Close the last row if it is incomplete
-}
+else {
+    $count = 0;
+    echo "<div class='container'>";
+    echo "<div class='row'>";
 
-echo "</div>"; // Close the container
+    // Display each category in a row
+    while ($row = $result->fetch_array()) {
+        
+        echo "<div class='col-md-4' style='margin-bottom: 20px;'>";
+        $product = "productDetails.php?pid=$row[ProductID]";
+        
+        echo "<div class='card'>";
+        $formattedPrice = number_format($row["Price"], 2);
+
+        $img = "./Images/products/$row[ProductImage]";
+        echo "<a href=$product>";
+        echo "<img src='$img' /></a>";
+        echo "<h2><a href=".$product." style='text-decoration:none;'>$row[ProductTitle]</a></h2>";
+        echo "<div class='body'>";
+        if ($row["Offered"] == 1){
+        $currentDate = new DateTime();
+        $endDate = new DateTime($row["OfferEndDate"]);
+        $startDate = new DateTime($row["OfferStartDate"]);
+        
+        // Calculate the difference between the two dates
+        $dateDiff = $endDate->diff($currentDate);
+        
+        // Get the difference in days as an integer
+        $daysDifference = (int)$dateDiff->days;
+
+        // on offer 
+        if ($endDate > $currentDate){
+            $offerPrice = number_format($row["OfferedPrice"], 2);
+            echo "Price: <span style='font-weight: bold; font-size: 20px; text-decoration: line-through;'>S$$formattedPrice</span>";
+            echo "<span style='font-weight: bold; color:red; font-size: 20px;'>  S$$offerPrice</span>";
+            echo "<p style='font-size:11px;' >From: " . $startDate->format('Y-m-d') . " to " . $endDate->format('Y-m-d') . "</p>";
+        }
+        else{
+            echo "Price: <span style='font-weight: bold; color:black; font-size: 20px;'>S$$formattedPrice</span>";
+        }
+        }
+
+        else{
+            echo "Price: <span style='font-weight: bold; color:black; font-size: 20px;'>S$$formattedPrice</span>";
+        }
+        
+        // echo "Price: <span style='font-weight: bold; color: red;'>$$formattedPrice</span>";
+        echo "</div>";
+        echo "</div>"; 
+        echo "</div>";
+        $count++;
+        if ($count % 3 == 0) {
+        echo "</div><div class='row'>"; // Close the current row and start a new one
+        }
+        
+    }
+
+    // Close any unclosed rows
+    if ($count % 3 != 0) {
+    echo "</div>"; // Close the last row if it is incomplete
+    }
+
+    echo "</div>"; // Close the container
 
 
-$conn->close(); // Close database connnection
-echo "</div>"; // End of container
-
-
+    $conn->close(); // Close database connnection
     echo "</div>"; // End of container
+
+
+        echo "</div>"; // End of container
+}
 include("footer.php"); // Include the Page Layout footer
 ?>
 
