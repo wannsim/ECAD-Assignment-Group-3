@@ -70,31 +70,6 @@ if(isset($_SESSION["ShopperName"])) {
   p{
     font-size: 20px;
   }
-  @media(max-width:852px){
-  table{
-        text-align: center;
-        display: inline-block;
-    }
-    table td,tr{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width:auto;
-        padding: 10px;
-    }
-
-    table img{
-        width:100%;
-    }
-    /* p{
-      font-size: 25px;
-    } */
-  }
-  @media(max-width:450px){
-      table td{
-        padding: 5px;
-      }
-    }
 </style>
 
 <?php

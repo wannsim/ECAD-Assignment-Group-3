@@ -3,23 +3,52 @@ session_start(); // Detect the current session
 include("header.php"); // Include the Page Layout header
 include_once("mysql_conn.php"); // Include the PHP file that establishes database connection handle: $conn
 echo "<style>
-		th {
-            background-color:black; /* Adds a background color to the headings */
-        }
-		
-	@media (max-width: 852px) {
-    table td, tr {
-        display: inline;
-		padding:0;
-		border: 1px;
+    body {
+        font-family: Arial, sans-serif;
     }
-		th,td{
-		padding: 10px;
-		text-align: center;
-		font-size:15px;
-		width:100%;}
-}
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 15px;
+    }
+    th {
+        background-color: black;
+        color: white;
+        padding: 10px;
+        text-align: left;
+    }
+    td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    @media (max-width: 852px) {
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        th, td {
+            font-size: 14px;
+            padding: 8px;
+        }
+        .container p, .container a {
+            font-size: 16px;
+        }
+    }
+    @media (max-width: 500px) {
+        th, td {
+            font-size: 12px;
+        }
+        .container p, .container a {
+            font-size: 14px;
+        }
+    }
 </style>";
+/* $_SESSION["OrderID"]=8; */
 if(isset($_SESSION["OrderID"])) {	
 	
 	$qry = "SELECT * FROM orderdata WHERE OrderID=?";
@@ -33,7 +62,7 @@ if(isset($_SESSION["OrderID"])) {
 	$row = $result->fetch_array();
 	echo "<div class='container'><p>Checkout successful. Your order number is $_SESSION[OrderID]</p>";
 	echo "<p>Order Date: ".$row['DateOrdered']."</p>";
-	echo "<p>Order Total: ".$_SESSION["Total"]."</p>";
+	echo "<p>Order Total: S$".$_SESSION["Total"]."</p>";
 	echo "<p>Shipping Address: ".$row['ShipAddress']."</p>";
 	echo "<p>Shipping Country: ".$row['ShipCountry']."</p>";
 	echo "<table style= 'width:100%;'><tr><th>Quantity</th><th>Price</th><th>Product</th></tr>";
@@ -47,7 +76,7 @@ if(isset($_SESSION["OrderID"])) {
 	}
 	echo "</table><br>";
 	echo "<p>Thank you for your purchase.</p>";
-	echo '<a href="index.php">Continue shopping</a></div>';}
+	echo '<a class="btn btn-primary" href="index.php">Continue shopping</a></div>';}
 
 
 include("footer.php"); // Include the Page Layout footer

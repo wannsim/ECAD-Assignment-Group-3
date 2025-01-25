@@ -427,7 +427,7 @@ WHERE
 			
 			$_SESSION["Items"][]=array("productId"=>$row["ProductID"],
 			"name"=>$row["ProductTitle"],
-			"price"=>$row["Price"],
+			"price"=>$final_price,
 			"quantity"=>$row["ShopCartQuantity"]);
 			// Accumulate the running sub-total
 			/* $subTotal += $row["Total"]; */

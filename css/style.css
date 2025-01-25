@@ -223,22 +223,6 @@ a{
     .navbar.active{
         top:100%;
     }
-    table{
-        text-align: center;
-        display: inline-block;
-    }
-    table td,tr{
-        font-size: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width:auto;
-        padding: 20px;
-    }
-
-    table img{
-        width:100%;
-    }
 }
 
 @media(max-width:712px){
