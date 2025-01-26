@@ -184,21 +184,53 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			               $httpParsedResponseAr["SHIPTOCOUNTRYNAME"]);
 			
 			$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);		
+			$DeliverDate = new DateTime('now');
 			if($_SESSION["ShipCharge"] == 0 or $_SESSION["ShipCharge"] == 10)
-				{$Delivery = "Express Delivery";
-				$DeliverDate = (new DateTime())->add(date_interval_create_from_date_string("24 hours"))->format("Y-m-d");}
+			{
+				$Delivery = "Express Delivery";
+				$DeliverDate->modify('+1 day');
+			}
 
 			else
-				{$Delivery = "Normal Delivery";
-				$DeliverDate=(new DateTime())->add(date_interval_create_from_date_string("2 days"))->format("Y-m-d");}
+			{
+				$Delivery = "Normal Delivery";
+				
+				$workingDays = 2; // Number of working days to add
+				$daysAdded = 0;
+				
+				while ($daysAdded < $workingDays) {
+					$DeliverDate->modify('+1 day'); // Add one day
+					
+					// Check if the day is a weekday (Monday to Friday)
+					if ($DeliverDate->format('N') < 6) { // 1 (Monday) to 5 (Friday)
+						$daysAdded++;
+					}
+				}
+			}
+			// Format the date before saving it to the database
+			$DeliverDate = $DeliverDate->format('Y-m-d');
+			$qry = "SELECT * from shopper
+			WHERE ShopperID=?";
+			$stmt = $conn->prepare($qry) ;
+			//"i" - integer, "d" - double
+			$stmt->bind_param("i",$_SESSION["ShopperID"]);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$row = $result->fetch_array();
+			$stmt->close(); 
+			$billname=$row["Name"];
+			$billaddress=$row["Address"];
+			$billcountry=$row["Country"];
+			$billphone=$row["Phone"];
+			$billemail=$row["Email"];
 
-			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
-			ShipEmail, ShopCartID, DeliveryDate, DeliveryMode)
-			VALUES (?, ?, ?, ?, ?,?,?)";
+			$qry = "INSERT INTO orderdata (ShopCartID,ShipName, ShipAddress, ShipCountry,
+			ShipEmail,BillName, BillAddress, BillCountry, BillPhone, BillEmail,DeliveryDate, DeliveryMode)
+			VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?,?)";
 			$stmt = $conn ->prepare($qry);
 			//"i" - integer, "s" - string
-			$stmt->bind_param ("ssssids" , $ShipName, $ShipAddress, $ShipCountry,
-			$ShipEmail, $_SESSION["Cart"],$DeliverDate,$Delivery);
+			$stmt->bind_param ("isssssssssss" , $_SESSION["Cart"], $ShipName, $ShipAddress, $ShipCountry,
+			$ShipEmail,$billname,$billaddress,$billcountry,$billphone,$billemail,$DeliverDate,$Delivery);
 			$stmt->execute() ;
 			$stmt->close() ;
 			$qry = "SELECT LAST_INSERT_ID() AS OrderID" ;
