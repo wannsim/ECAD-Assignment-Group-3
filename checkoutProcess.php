@@ -129,7 +129,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 	if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
 	   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 	{
-
 		foreach($_SESSION['Items'] as $key=>$item) {
 			$qry = "UPDATE product SET Quantity=Quantity-?
 			WHERE ProductID=?";
@@ -143,13 +142,13 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 	
 		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
 		$qry = "UPDATE shopcart SET OrderPlaced=1 , Quantity=?,
-		SubTotal=?, ShipCharge=?, Tax=?, Total=?
+		SubTotal=?, ShipCharge=?, Tax=?, Total=?,Discount=?
 		WHERE ShopCartID=?";
 		$stmt = $conn->prepare($qry) ;
 		//"i" - integer, "d" - double
-		$stmt->bind_param("iddddi", $_SESSION["NumCartItem"],
+		$stmt->bind_param("iddddid", $_SESSION["NumCartItem"],
 		$_SESSION["SubTotal"], $_SESSION["ShipCharge"] ,
-		$_SESSION["Tax"], $total,$_SESSION["Cart"]);
+		$_SESSION["Tax"], $total,$_SESSION["Cart"],$_SESSION["Discount"]);
 		$stmt->execute();
 		$stmt->close();
 		
@@ -184,14 +183,22 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$ShipCountry = urldecode(
 			               $httpParsedResponseAr["SHIPTOCOUNTRYNAME"]);
 			
-			$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
+			$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);		
+			if($_SESSION["ShipCharge"] == 0 or $_SESSION["ShipCharge"] == 10)
+				{$Delivery = "Express Delivery";
+				$DeliverDate = (new DateTime())->add(date_interval_create_from_date_string("24 hours"))->format("Y-m-d");}
+
+			else
+				{$Delivery = "Normal Delivery";
+				$DeliverDate=(new DateTime())->add(date_interval_create_from_date_string("2 days"))->format("Y-m-d");}
+
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
-			ShipEmail, ShopCartID)
-			VALUES (?, ?, ?, ?, ?)";
+			ShipEmail, ShopCartID, DeliveryDate, DeliveryMode)
+			VALUES (?, ?, ?, ?, ?,?,?)";
 			$stmt = $conn ->prepare($qry);
 			//"i" - integer, "s" - string
-			$stmt->bind_param ("ssssi" , $ShipName, $ShipAddress, $ShipCountry,
-			$ShipEmail, $_SESSION["Cart"]);
+			$stmt->bind_param ("ssssids" , $ShipName, $ShipAddress, $ShipCountry,
+			$ShipEmail, $_SESSION["Cart"],$DeliverDate,$Delivery);
 			$stmt->execute() ;
 			$stmt->close() ;
 			$qry = "SELECT LAST_INSERT_ID() AS OrderID" ;

@@ -299,6 +299,7 @@ WHERE
 		// Display the shopping cart content
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		$total_quantity = 0;
+		$discount = 0;
 		while ($row = $result->fetch_array()) {
 			$offerStartDate = new DateTime($row['OfferEndDate']); // Convert to DateTime object
 			$today = new DateTime(); 
@@ -349,37 +350,13 @@ WHERE
 			echo "</div>";
 			
 
-			
-
-
-
-			/* echo '    <div class="quantity">';
-			echo '<input onChange="this.form.submit()"';
-			echo '            type="number" ';
-			echo '            id="quantity" ';
-			echo '            name="quantity" ';
-			echo '            value="' . $row["ShopCartQuantity"] . '" ';
-			echo '            data-max-quantity="' . $row["Quantity"] . '" ';
-			echo '            oninput="checkQuantity(this)"'; // Add validation for numeric input
-			echo '            style="height:30px;width:100px"';
-			echo '        />';
-			echo '    </div>'; */
+		
 			echo '    <input type="hidden" name="product_id" value="' . $row["ProductID"] . '">';
 			echo '    <input type="hidden" name="action" value="update">';
 			echo '   <br> <p style="text-align:center;font-size: 20px;">In stock: ' . $row["Quantity"] . '</p>';
 			echo '</form>';
 			echo '    </div>';
 			echo "<script>";
-			/* echo "document
-					.getElementById('increment')
-					.addEventListener('click', function (event) {
-						event.preventDefault();
-					});";
-			echo "document
-			.getElementById('decrement')
-			.addEventListener('click', function (event) {
-				event.preventDefault();
-			});"; */
 			echo "const myInput = document.getElementById('my-input');";
 			echo "function stepper(btn) {";
 			echo "let id = btn.getAttribute('id');";
@@ -408,6 +385,7 @@ WHERE
 			$final_price;
 			if ($row["Offered"] == 1 && $daysDifference >= 0){
 				$final_price = number_format($row["OfferedPrice"],2);
+				$discount += number_format($row["Price"] - $row["OfferedPrice"],2);
 			}
 			else{
 				$final_price = number_format($row["Price"],2);
@@ -433,6 +411,7 @@ WHERE
 			/* $subTotal += $row["Total"]; */
 		}
 		$_SESSION["SubTotal"] = round($subTotal,2);
+		$_SESSION["Discount"] = round($discount,2);
 		$qry = "SELECT *
 				FROM gst
 				WHERE EffectiveDate <= NOW()
@@ -462,6 +441,11 @@ WHERE
 		echo '        <div class="checkout-row">';
 		echo "            <span>GST($tax_rate%)</span>";
 		echo "            <span>S$".number_format($_SESSION["Tax"],2);
+		echo " 			  </span>";
+		echo '        </div>';
+		echo '        <div class="checkout-row">';
+		echo "            <span>Total Discount</span>";
+		echo "            <span>S$".number_format($_SESSION["Discount"],2);
 		echo " 			  </span>";
 		echo '        </div>';
 		if ($subTotal >= 200){
