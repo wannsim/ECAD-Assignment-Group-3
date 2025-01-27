@@ -5,6 +5,10 @@ if (!isset($_SESSION["ShopperID"])) { // Check if user logged in
 	header ("Location: login.php");
 	exit;
 }
+// Include the code that contains shopping cart's functions.
+// Current session is detected in "cartFunctions.php, hence need not start session here.
+include_once("cartFunctions.php");
+include("header.php"); // Include the Page Layout header
 echo "  <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -244,10 +248,6 @@ echo "  <style>
         border-radius: 0 30px 30px 0;
     }
     </style>";
-// Include the code that contains shopping cart's functions.
-// Current session is detected in "cartFunctions.php, hence need not start session here.
-include_once("cartFunctions.php");
-include("header.php"); // Include the Page Layout header
 
 /* if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delivery'])) {
     $_SESSION["ShipCharge"] = (float)$_POST["delivery"];
@@ -445,8 +445,7 @@ WHERE
 		echo '        </div>';
 		echo '        <div class="checkout-row">';
 		echo "            <span>Total Discount</span>";
-		echo "            <span>Save: S$".number_format($_SESSION["Discount"],2);
-		echo " 			  </span>";
+		echo "            <span>Save: S$".number_format($_SESSION["Discount"],2)."</span>";
 		echo '        </div>';
 		if ($subTotal >= 200){
 			$_SESSION["ShipCharge"] = 0.00;
@@ -468,7 +467,7 @@ WHERE
 				$formSubmitted = true; // Mark form as submitted
 			} 
 			echo '        <div class="checkout-row">';
-			echo '   <span>Delivery Mode <p style="font-size:13px;color:red;">(Normal Delivery - Delivery within 2 working days)<br>(Express Delivery - Delivery within 24 hours)</p></span>';
+			echo '   <span style="text-align:left;">Delivery Mode <p style="font-size:13px;color:red;">(Normal Delivery - Delivery within 2 working days)<br>(Express Delivery - Delivery within 24 hours)</p></span>';
 			// Display the form
 			echo '<form method="post">';
 			echo '    <select name="delivery" id="delivery" onchange="this.form.submit()">';
