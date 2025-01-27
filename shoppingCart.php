@@ -445,7 +445,7 @@ WHERE
 		echo '        </div>';
 		echo '        <div class="checkout-row">';
 		echo "            <span>Total Discount</span>";
-		echo "            <span>S$".number_format($_SESSION["Discount"],2);
+		echo "            <span>Save: S$".number_format($_SESSION["Discount"],2);
 		echo " 			  </span>";
 		echo '        </div>';
 		if ($subTotal >= 200){

@@ -62,19 +62,26 @@ if(isset($_SESSION["OrderID"])) {
 	$row = $result->fetch_array();
 	echo "<div class='container'><p>Checkout successful. Your order number is $_SESSION[OrderID]</p>";
 	echo "<p>Order Date: ".$row['DateOrdered']."</p>";
-	echo "<p>Order Total: S$".$_SESSION["Total"]."</p>";
-	echo "<p>Shipping Address: ".$row['ShipAddress']."</p>";
-	echo "<p>Shipping Country: ".$row['ShipCountry']."</p>";
-	echo "<table style= 'width:100%;'><tr><th>Quantity</th><th>Price</th><th>Product</th></tr>";
+    echo "<p>Delivery Date: ".$row['DeliveryDate']."</p>";
+    echo "<p>Delivery Mode: ".$row['DeliveryMode']." Delivery</p>";
+	echo "<table style= 'width:100%;'><tr><th>Billing Address</th><th>Shipping Address</th></tr>";
+	echo "<tr><td>".$row['ShipAddress']."<br>".$row['ShipCountry']."<br>Email: ".$row['ShipEmail']."</td>";
+	echo "<td>".$row['BillAddress']."<br>".$row['BillCountry']."<br>Email: ".$row['BillEmail']."</td></tr></table>";
+    echo "<br><p>Order Details:</p>";
+	echo "<table style= 'width:100%;'><tr><th>Product</th><th>Quantity</th><th>Price</th></tr>";
 	foreach($_SESSION['Items']  as $key=>$item) 
 	{
 		echo '<tr>';
+		echo '<td>'.$item["name"].'</td>';
 		echo '<td>'.$item["quantity"].'</td>';
 		echo '<td>S$'.number_format($item["price"],2).'</td>';
-		echo '<td>'.$item["name"].'</td>';
 		echo '</tr>';
 	}
 	echo "</table><br>";
+    echo "<p>Subtotal: S$".number_format($_SESSION["SubTotal"],2)."</p>";
+    echo "<p>Tax: S$".$_SESSION["Tax"]."</p>";
+    echo "<p>Shipping: S$".$_SESSION["ShipCharge"]."</p>";
+    echo "<p>Order Total: S$".$_SESSION["Total"]."</p>";
 	echo "<p>Thank you for your purchase.</p>";
 	echo '<a class="btn btn-primary" href="index.php">Continue shopping</a></div>';}
 

@@ -146,9 +146,9 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		WHERE ShopCartID=?";
 		$stmt = $conn->prepare($qry) ;
 		//"i" - integer, "d" - double
-		$stmt->bind_param("iddddid", $_SESSION["NumCartItem"],
+		$stmt->bind_param("idddddi", $_SESSION["NumCartItem"],
 		$_SESSION["SubTotal"], $_SESSION["ShipCharge"] ,
-		$_SESSION["Tax"], $total,$_SESSION["Cart"],$_SESSION["Discount"]);
+		$_SESSION["Tax"], $total,$_SESSION["Discount"],$_SESSION["Cart"]);
 		$stmt->execute();
 		$stmt->close();
 		
@@ -187,13 +187,13 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$DeliverDate = new DateTime('now');
 			if($_SESSION["ShipCharge"] == 0 or $_SESSION["ShipCharge"] == 10)
 			{
-				$Delivery = "Express Delivery";
+				$Delivery = "Express";
 				$DeliverDate->modify('+1 day');
 			}
 
 			else
 			{
-				$Delivery = "Normal Delivery";
+				$Delivery = "Normal";
 				
 				$workingDays = 2; // Number of working days to add
 				$daysAdded = 0;
