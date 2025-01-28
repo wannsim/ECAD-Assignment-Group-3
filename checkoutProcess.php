@@ -8,7 +8,7 @@ if($_POST) //Post Data received from Shopping cart page.
 {
 	// To Do 6 (DIY): Check to ensure each product item saved in the associative
 	//                array is not out of stock
-
+	$_SESSION["ShipCharge"] = $_POST["delivery"];
 	foreach($_SESSION['Items'] as $key=>$item) {
 		$qry = "SELECT * from product
 			WHERE ProductID=?";

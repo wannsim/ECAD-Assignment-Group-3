@@ -460,21 +460,34 @@ WHERE
 			echo '        </div>';
 		}
 		else{
-			$_SESSION["ShipCharge"] = 10.00;
 			$formSubmitted = false; // Track if form was submitted
 			if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delivery'])) {
 				$_SESSION["ShipCharge"] = (float)$_POST["delivery"];
 				$formSubmitted = true; // Mark form as submitted
+			} 
+			elseif (!isset($_SESSION["ShipCharge"])) {
+				// Set a default ShipCharge if not already set
+				$_SESSION["ShipCharge"] = 10.00; // Default value
 			}
+			echo "
+			<script>
+			function shipcharge() {
+				// Get the selected value from the dropdown
+				const shipCharge = document.getElementById('delivery').value;
+
+				// Update the text dynamically
+				document.getElementById('shipcharge').innerHTML = 'S$' + parseFloat(shipCharge).toFixed(2);
+				document.getElementById('total').innerHTML = 'S$' + (parseFloat($subTotal) + parseFloat(shipCharge) + parseFloat(".$_SESSION["Tax"].")).toFixed(2);
+			}
+			</script>";
 			echo '        <div class="checkout-row">';
 			echo '   <span style="text-align:left;">Delivery Mode <p style="font-size:13px;color:red;">(Normal Delivery - Delivery within 2 working days)<br>(Express Delivery - Delivery within 24 hours)</p></span>';
 			// Display the form
-			echo '<form method="post" action="#deliverySection">';
-			echo '    <select name="delivery" id="delivery" onchange="this.form.submit()">';
+			echo '<form method="post" action="checkoutProcess.php">';
+			echo '    <select name="delivery" id="delivery" onchange="shipcharge();">';
 			echo '            <option value="5"' . ($_SESSION["ShipCharge"] == 5 ? ' selected' : '') . '>Normal Delivery</option>';
 			echo '            <option value="10"' . ($_SESSION["ShipCharge"] == 10 ? ' selected' : '') . '>Express Delivery</option>';
 			echo '    </select>';
-			echo '</form>';
 			echo '        </div>';
 			echo '        <div class="checkout-row" id="deliverySection">';
 			echo '            <span>Shipping</span>';
@@ -484,14 +497,12 @@ WHERE
 		}
 		echo '        <div class="checkout-row">';
 		echo '            <span>Preferred Delivery Time</span>';
-		echo '<form method="post">';
 		echo '    <select name="time" id="time">';
 		echo '		  <option value=""><--Select--></option>';
 		echo '        <option value="1">9 am - 12 noon</option>';
 		echo '        <option value="2")>12 noon - 3pm</option>';
 		echo '        <option value="3")>3pm - 6pm</option>';
 		echo '    </select>';
-		echo '</form>';		
 		echo '        </div>';
 		echo '        <div class="checkout-row checkout-total">';
 		echo '            <span>Total</span>';
@@ -501,7 +512,6 @@ WHERE
 		$_SESSION["Total"] = round($subTotal + $_SESSION["Tax"] + $_SESSION["ShipCharge"],2);
 
 		echo '        <div style="text-align: right;">';
-		echo "<form method='post' action='checkoutProcess.php'>";
 		echo "<input type='image' style='float:right;'
 		src=' https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
 		echo " </form></p>";	
