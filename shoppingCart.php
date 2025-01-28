@@ -465,36 +465,37 @@ WHERE
 			if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delivery'])) {
 				$_SESSION["ShipCharge"] = (float)$_POST["delivery"];
 				$formSubmitted = true; // Mark form as submitted
-			} 
+			}
 			echo '        <div class="checkout-row">';
 			echo '   <span style="text-align:left;">Delivery Mode <p style="font-size:13px;color:red;">(Normal Delivery - Delivery within 2 working days)<br>(Express Delivery - Delivery within 24 hours)</p></span>';
 			// Display the form
-			echo '<form method="post">';
+			echo '<form method="post" action="#deliverySection">';
 			echo '    <select name="delivery" id="delivery" onchange="this.form.submit()">';
-			echo '        <option value="5"' . (isset($_SESSION["ShipCharge"]) && $_SESSION["ShipCharge"] == 5 ? ' selected' : '') . '>Normal Delivery</option>';
-			echo '        <option value="10"' . (isset($_SESSION["ShipCharge"]) && $_SESSION["ShipCharge"] == 10 ? ' selected' : '') . '>Express Delivery</option>';
+			echo '            <option value="5"' . ($_SESSION["ShipCharge"] == 5 ? ' selected' : '') . '>Normal Delivery</option>';
+			echo '            <option value="10"' . ($_SESSION["ShipCharge"] == 10 ? ' selected' : '') . '>Express Delivery</option>';
 			echo '    </select>';
 			echo '</form>';
 			echo '        </div>';
-			echo '        <div class="checkout-row">';
+			echo '        <div class="checkout-row" id="deliverySection">';
 			echo '            <span>Shipping</span>';
-			echo "            <span>S$".number_format($_SESSION["ShipCharge"],2);
+			echo "            <span id='shipcharge'>S$".number_format($_SESSION["ShipCharge"],2);
 			echo " 			  </span>";			
 			echo '        </div>';
-			if ($formSubmitted) {
-				echo '<script>';
-				echo '    window.addEventListener("load", function() {';
-				echo '        var formElement = document.getElementById("delivery");';
-				echo '        if (formElement) {';
-				echo '            formElement.scrollIntoView({ behavior: "smooth" });';
-				echo '        }';
-				echo '    });';
-				echo '</script>';
-			}
 		}
+		echo '        <div class="checkout-row">';
+		echo '            <span>Preferred Delivery Time</span>';
+		echo '<form method="post">';
+		echo '    <select name="time" id="time">';
+		echo '		  <option value=""><--Select--></option>';
+		echo '        <option value="1">9 am - 12 noon</option>';
+		echo '        <option value="2")>12 noon - 3pm</option>';
+		echo '        <option value="3")>3pm - 6pm</option>';
+		echo '    </select>';
+		echo '</form>';		
+		echo '        </div>';
 		echo '        <div class="checkout-row checkout-total">';
 		echo '            <span>Total</span>';
-		echo "            <span>S$".number_format($subTotal + $_SESSION["Tax"] + $_SESSION["ShipCharge"],2);
+		echo "            <span id='total'>S$".number_format($subTotal + $_SESSION["Tax"] + $_SESSION["ShipCharge"],2);
 		echo " 			  </span>";			
 		echo '        </div>';
 		$_SESSION["Total"] = round($subTotal + $_SESSION["Tax"] + $_SESSION["ShipCharge"],2);
