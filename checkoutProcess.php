@@ -8,7 +8,28 @@ if($_POST) //Post Data received from Shopping cart page.
 {
 	// To Do 6 (DIY): Check to ensure each product item saved in the associative
 	//                array is not out of stock
-	$_SESSION["ShipCharge"] = $_POST["delivery"];
+	$_SESSION["ShipCharge"] = number_format($_POST["delivery"],2);
+	$deliverytime="";
+	if (isset($_POST["time"])) {
+		$item = (int)$_POST["time"];
+		if($item==1)
+		{
+			$deliverytime="9am - 12 noon";
+		}
+		else if($item==2)
+		{
+			$deliverytime="12 noon - 3 pm";
+		}
+		else if($item==3)
+		{
+			$deliverytime="3 pm - 6 pm";
+		}
+	}
+	else{
+		$deliverytime="test123";
+	}
+	$_SESSION["DeliveryTime"]=$deliverytime;
+	$_SESSION["Message"]=$_POST["message"];
 	foreach($_SESSION['Items'] as $key=>$item) {
 		$qry = "SELECT * from product
 			WHERE ProductID=?";
@@ -225,12 +246,12 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$billemail=$row["Email"];
 
 			$qry = "INSERT INTO orderdata (ShopCartID,ShipName, ShipAddress, ShipCountry,
-			ShipEmail,BillName, BillAddress, BillCountry, BillPhone, BillEmail,DeliveryDate, DeliveryMode)
-			VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?,?)";
+			ShipEmail,BillName, BillAddress, BillCountry, BillPhone, BillEmail,DeliveryDate,DeliveryTime, DeliveryMode,Message)
+			VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";
 			$stmt = $conn ->prepare($qry);
 			//"i" - integer, "s" - string
-			$stmt->bind_param ("isssssssssss" , $_SESSION["Cart"], $ShipName, $ShipAddress, $ShipCountry,
-			$ShipEmail,$billname,$billaddress,$billcountry,$billphone,$billemail,$DeliverDate,$Delivery);
+			$stmt->bind_param ("isssssssssssss" , $_SESSION["Cart"], $ShipName, $ShipAddress, $ShipCountry,
+			$ShipEmail,$billname,$billaddress,$billcountry,$billphone,$billemail,$DeliverDate,$_SESSION["DeliveryTime"],$Delivery,$_SESSION["Message"]);
 			$stmt->execute() ;
 			$stmt->close() ;
 			$qry = "SELECT LAST_INSERT_ID() AS OrderID" ;
