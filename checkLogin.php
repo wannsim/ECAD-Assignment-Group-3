@@ -10,6 +10,7 @@ $email = $_POST["email"];
 $pwd = $_POST["password"];
 
 if ($email=="admin@admin.com" && $pwd=="admin") {
+    $_SESSION["ShopperName"] = "Admin";
     header("Location: admin.php");
     exit;
 }
