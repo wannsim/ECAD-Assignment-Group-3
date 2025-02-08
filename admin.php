@@ -13,7 +13,24 @@ if(isset($_SESSION["ShopperName"])) {
 }
 ?>
 <br><br>
-
+<style>
+  @media (max-width: 852px) {
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        th, td,button {
+            font-size: 14px;
+            padding: 8px;
+        }
+    }
+    @media (max-width: 500px) {
+        th, td,button {
+            font-size: 12px;
+        }
+    }
+</style>
 <h1 style="text-align: center; font-size: 40px; margin-top:-50px;">
    Admin Dashboard
 </h1>
