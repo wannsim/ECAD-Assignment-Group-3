@@ -14,10 +14,10 @@ if(isset($_SESSION["ShopperName"])) {
 ?>
 <br><br>
 
-<h1 style="text-align: center; font-size: 4em;">
+<h1 style="text-align: center; font-size: 4em; margin-top:-50px;">
      <img src="https://cdn-icons-png.flaticon.com/128/2568/2568424.png" alt="Baby Icon" 
      style="vertical-align: middle; width: 80px; height: 80px; margin-right: 10px;">
-    BABY SHOP
+    BABY SHOP 
     <img src="https://cdn-icons-png.flaticon.com/128/2568/2568424.png" alt="Baby Icon" 
     style="vertical-align: middle; width: 80px; height: 80px; margin-right: 10px;">
 </h1>

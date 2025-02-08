@@ -34,11 +34,6 @@ if ($stmt->execute()) { // SQL statement executed successfully
     while ($row = $result->fetch_array()) {
         $_SESSION["ShopperID"] = $row["ShopperID"];
     }
-    
-
-    // Successful message and Shopper ID
-    $Message = "Registration successful!<br />
-    Your Shopper ID is $_SESSION[ShopperID]<br />";
 
     // Save the Shopper Name in a session variable
     $_SESSION["ShopperName"] = $name;
@@ -56,10 +51,18 @@ $conn->close();
 
 // Display Page Layout header with updated session state and links
 include("header.php");
+echo '<div class="form-group row" style="text-align:center;"> ';
+	    
+if (isset($_SESSION["ShopperID"])) {
 
-// Display message
-echo $Message;
-
+    echo "<h3>Thank you for registering with us, $name.</h3>";
+    echo "<p>You can now start shopping with us.</p>";
+    echo '<a href="index.php" style="align-items:left;"><button class="btn btn-primary" type="submit">Continue</button></a>';
+} else {
+    echo "<h3>Sorry, $name. There was an error in registering you.</h3>";
+    echo "<p>Please try again later.</p>";
+}
+echo '</div>';
 // Display Page Layout footer
 include("footer.php"); 
 

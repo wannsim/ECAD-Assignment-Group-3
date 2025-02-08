@@ -70,23 +70,22 @@ include("header.php"); // Include the Page Layout header
 }
 </style>
 <div style="width:80%; margin:auto;"> <!-- Container -->
-<form name="frmSearch" method="get" action="">
-    <div class="mb-3 row"> <!-- 1st row -->
-        <div class="col-sm-9 offset-sm-3">
-            <span class="page-title" style="font-size:50px;">Product Search</span>
-        </div>
-    </div> 
-<form method="get" action="">
+<div class="mb-3 row"> <!-- 1st row -->
+    <div style="padding:5px; text-align:center">
+        <span class="page-title" style="font-size:45px;">Product Search</span>
+    </div>
+</div> 
+<form method="get" action="" style="width:70%; margin:auto;">
     <div class="mb-3 row">
         <label for="keywords" class="col-sm-3 col-form-label" style="font-size:20px;">Search:</label>
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <input type="text" class="form-control" name="keywords" id="keywords" placeholder="Enter product title or description" />
         </div>
     </div>
 
     <div class="mb-3 row">
         <label for="availability" class="col-sm-3 col-form-label" style="font-size:20px;">Availability:</label>
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <select class="form-control" name="availability" id="availability">
                 <option value=""><--Select--></option>
                 <option value="1">In Stock</option>
@@ -97,17 +96,17 @@ include("header.php"); // Include the Page Layout header
 
     <div class="mb-3 row">
         <label for="priceRange" class="col-sm-3 col-form-label" style="font-size:20px;">Price Range:</label>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <input type="number" class="form-control" name="minPrice" id="minPrice" placeholder="Min Price" />
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <input type="number" class="form-control" name="maxPrice" id="maxPrice" placeholder="Max Price" />
         </div>
     </div>
 
     <div class="mb-3 row">
         <label for="offers" class="col-sm-3 col-form-label" style="font-size:20px;">Products on Offer:</label>
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <select class="form-control" name="offers" id="offers">
                 <option value=""><--Select--></option>
                 <option value="1">On Offer</option>
@@ -117,7 +116,7 @@ include("header.php"); // Include the Page Layout header
     </div>
 
     <div class="mb-3 row">
-        <div class="col-sm-3 offset-sm-3">
+        <div class="col-sm-4 offset-sm-3">
             <button class="btn btn-primary" type="submit">Filter</button>
         </div>
     </div>
