@@ -37,7 +37,7 @@ if(isset($_SESSION["ShopperName"])) {
             <thead>
                 <th>Shopper ID</th>
                 <th>Name</th>
-                <th>Address</th>
+                <th>Email</th>
                 <th>Active Status</th>
                 <th>Actions</th>
 
@@ -58,60 +58,21 @@ if(isset($_SESSION["ShopperName"])) {
               echo "<tr>";
               echo "<td class='shopperid'>".$row['ShopperID']."</td>";
               echo "<td class='shoppername'>".$row['Name']."</td>";
-              echo"<td>".$row['Address']."</td>";
+              echo"<td>".$row['Email']."</td>";
               if ($row['ActiveStatus'] == 1){
                 $row['ActiveStatus'] = "Active";
               } else {
                 $row['ActiveStatus'] = "Inactive";
               }
-              echo"      <td>".$row['ActiveStatus']."</td>
-                    <td>
-                        <button class='btn btn-secondary'>Activate</button>
-                        <button class='btn btn-danger' type='submit'>Deactivate</button>
-                    </td>
-                </tr>";
-                /* if ($row["Offered"] == 1){
-                    $currentDate = new DateTime();
-                    $endDate = new DateTime($row["OfferEndDate"]);
-                    $startDate = new DateTime($row["OfferStartDate"]);
-                    
-                    // Calculate the difference between the two dates
-                    $dateDiff = $endDate->diff($currentDate);
-                    
-                    // Get the difference in days as an integer
-                    $daysDifference = (int)$dateDiff->days;
-                    
-                    // on offer 
-                    if ($endDate > $currentDate){
-                        echo "<div class='col-md-4' style='margin-bottom: 20px;'>";
-                        echo "<div class='card'>";
-
-                        $product = "productDetails.php?pid=$row[ProductID]";
-                        $formattedPrice = number_format($row["Price"], 2);
-
-                      
-                        $img = "./Images/products/$row[ProductImage]";
-                        echo "<a href=$product>";
-                        echo "<img src='$img' /></a>";
-                        echo "<h2><a href=$product style='text-decoration:none'>$row[ProductTitle]</a></h2>";
-                        echo "<div class='body'>";
-                        $offerPrice = number_format($row["OfferedPrice"], 2);
-                        echo "Price: <span style='font-weight: bold; font-size: 20px; text-decoration: line-through;'>S$$formattedPrice</span>";
-                        echo "<span style='font-weight: bold; color:red; font-size: 30px;'>  S$$offerPrice</span>";
-                        echo "<p style='font-size:11px;' >From: " . $startDate->format('Y-m-d') . " to " . $endDate->format('Y-m-d') . "</p>";
-                        $percent=round(($row["Price"] - $row["OfferedPrice"]) / $row["Price"] * 100 / 10) * 10;
-                        echo '<span class="discount">-'.$percent.'%</span>';
-                        echo "</div>"; 
-                        echo "</div>"; 
-                        echo "</div>";
-                        $count++;
-                    }
-
-                }
-
-                if ($count % 3 == 0) {
-                    echo "</div><div class='row'>"; // Close the current row and start a new one
-                }*/
+              echo "<form action='adminFunctions.php' method='post'>";
+              echo "<input type='hidden' name='shopper_id' value='".$row['ShopperID']."' />"; // Pass ShopperID
+              echo "<td>".$row['ActiveStatus']."</td>";
+              echo "<td>";
+              echo "    <button class='btn btn-secondary' type='submit' name='action' value='activate'>Activate</button>";
+              echo "    <button class='btn btn-danger' type='submit' name='action' value='deactivate'>Deactivate</button>";
+              echo "</td>";
+              echo "</form>";
+              echo "</tr>";
             } 
 
             ?>
