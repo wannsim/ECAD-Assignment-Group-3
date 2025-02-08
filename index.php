@@ -34,7 +34,7 @@ if(isset($_SESSION["ShopperName"])) {
   }
 
 .card {
-    height: 500px;
+    height: 450px;
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Distribute content evenly */
@@ -70,6 +70,15 @@ if(isset($_SESSION["ShopperName"])) {
   p{
     font-size: 20px;
   }
+  .discount{
+    position: absolute;
+    top:1rem;
+    left:-1px;
+    background: var(--light-orange-color);
+    color:var(--bg-color);
+    padding: 4px 18px;
+    clip-path: polygon(100% 0%,75% 50%,100% 100%,0 100%,0% 50%,0 0);
+}
 </style>
 
 <?php
@@ -108,16 +117,18 @@ while ($row = $result->fetch_array()) {
             $product = "productDetails.php?pid=$row[ProductID]";
             $formattedPrice = number_format($row["Price"], 2);
 
-            echo "<h2><a href=$product>$row[ProductTitle]</a></h2>";
+           
             $img = "./Images/products/$row[ProductImage]";
-            echo "<img src='$img' />";
-
+            echo "<a href=$product>";
+            echo "<img src='$img' /></a>";
+            echo "<h2><a href=$product style='text-decoration:none'>$row[ProductTitle]</a></h2>";
             echo "<div class='body'>";
             $offerPrice = number_format($row["OfferedPrice"], 2);
             echo "Price: <span style='font-weight: bold; font-size: 20px; text-decoration: line-through;'>S$$formattedPrice</span>";
             echo "<span style='font-weight: bold; color:red; font-size: 30px;'>  S$$offerPrice</span>";
             echo "<p style='font-size:11px;' >From: " . $startDate->format('Y-m-d') . " to " . $endDate->format('Y-m-d') . "</p>";
-            
+            $percent=round(($row["Price"] - $row["OfferedPrice"]) / $row["Price"] * 100 / 10) * 10;
+            echo '<span class="discount">-'.$percent.'%</span>';
             echo "</div>"; 
             echo "</div>"; 
             echo "</div>";

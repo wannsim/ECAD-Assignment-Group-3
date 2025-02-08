@@ -1,4 +1,5 @@
-﻿<style>
+﻿Ho Yi Victoria, [8/2/2025 1:07 pm]
+<style>
     .container1{
     border-radius:15px;
     display:flex;
@@ -49,7 +50,7 @@ $pid=$_GET["pid"]; // Read Product ID from query string
 include_once("mysql_conn.php"); 
 $qry = "SELECT * from product where ProductID=?";
 $stmt = $conn->prepare($qry);
-$stmt->bind_param("i", $pid); 	// "i" - integer 
+$stmt->bind_param("i", $pid);   // "i" - integer 
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
@@ -65,7 +66,7 @@ while ($row = $result->fetch_array()) {
     echo "<span class='page-title' style='font-size: 3em;'>$row[ProductTitle]</span>";
     echo "</div>";
     echo "</div>";
-    echo "<div class='row'> " ; // Start a new row
+    echo "<div class='row1'> " ; // Start a new row
     $img = "./Images/products/$row[ProductImage]";
 
     // Start the flex container
@@ -112,11 +113,11 @@ while ($row = $result->fetch_array()) {
         
         // Get the difference in days as an integer
         $daysDifference = (int)$dateDiff->days;
-
-        // on offer 
+// on offer 
         if ($endDate > $currentDate){
             $offerPrice = number_format($row["OfferedPrice"], 2);
-            echo "<p style = 'font-size: 25px;'>Offer<img src = 'https://cdn-icons-png.flaticon.com/128/726/726476.png' width = 35px;></p>";
+            echo '<p style="background-color: green; color: white; padding: 10px; width: fit-content; border-radius: 5px;">Save ' . round(($row["Price"] - $row["OfferedPrice"]) / $row["Price"] * 100 / 10) * 10 . "%</p>";
+      echo "<p style = 'color:red; background-color: white; padding: 10px; width: fit-content; border-radius: 5px;'>$daysDifference days left !</p>";
             echo "Price: <span style='font-weight: bold; font-size: 20px; text-decoration: line-through;'>S$$formattedPrice</span>";
             echo "<span style='font-weight: bold; color:red; font-size: 30px;'>  S$$offerPrice</span>";
         }

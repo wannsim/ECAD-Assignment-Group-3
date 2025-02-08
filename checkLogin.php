@@ -10,6 +10,11 @@ include_once("mysql_conn.php");
 // Reading inputs entered in previous page
 $email = $_POST["email"];
 $pwd = $_POST["password"];
+
+if ($email=="admin@admin.com" && $pwd=="admin") {
+    header("Location: admin.php");
+    exit;
+}
 // To Do 1 (Practical 2): Validate login credentials with database
 $qry = "SELECT * FROM shopper WHERE Email = ?";
 $stmt = $conn->prepare($qry);
@@ -20,7 +25,8 @@ $result = $stmt->get_result(); // Execute the SQL and get the returned result
 if ($result->num_rows > 0) { // If found, display records
     while ($row = $result->fetch_array()) 
     {
-        if($row["Password"] == $pwd){
+        if($row["Password"] == $pwd && $row["ActiveStatus"] == 1)
+        {
         $_SESSION["ShopperName"] = $row["Name"];
         $_SESSION["ShopperID"] = $row["ShopperID"];
         

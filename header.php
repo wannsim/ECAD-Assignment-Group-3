@@ -14,7 +14,6 @@
     <!-- Link to compiled Bootstrap JavaScript downloaded -->
     <script src="js/bootstrap.bundle.min.js"></script>
     <!-- Site specific Cascading Stylesheet-->
-    <link rel="stylesheet" href="css/site.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <!-- <body style="background: linear-gradient( rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%), url(Images/background.jpg);color:white;border: 0px;

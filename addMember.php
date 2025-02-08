@@ -8,19 +8,23 @@ $country = $_POST["country"];
 $phone = $_POST["phone"];
 $email = $_POST["email"];
 $password = $_POST["password"];
+$securityqn = $_POST["securityqn"];
+$answer = $_POST["answer"];
+$birthdate = $_POST["birthdate"];
+$active = 1;
 
 
 // Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php");
 
 // Define the INSERT SQL statement
-$qry = "INSERT INTO Shopper (Name, Address, Country, Phone, Email, Password)
-VALUES (?, ?, ?, ?, ?, ?)";
+$qry = "INSERT INTO Shopper (Name, Address, Country, Phone, Email, Password, BirthDate, PwdQuestion, PwdAnswer,ActiveStatus,DateEntered)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
 $stmt = $conn->prepare($qry);
 // "ssssss" 6 string parameters
 
-$stmt->bind_param("ssssss", $name, $address, $country, $phone, $email, $password);
+$stmt->bind_param("sssssssssi", $name, $address, $country, $phone, $email, $password, $birthdate, $securityqn, $answer, $active);
 
 if ($stmt->execute()) { // SQL statement executed successfully
     // Retrieve the Shopper ID assigned to the new shopper
@@ -38,6 +42,7 @@ if ($stmt->execute()) { // SQL statement executed successfully
 
     // Save the Shopper Name in a session variable
     $_SESSION["ShopperName"] = $name;
+    $_SESSION["NumCartItem"] = 0;
 
 } else { // Error message
     $Message = "<h3 style='color: red;'>Error in inserting record</h3>";

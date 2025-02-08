@@ -47,6 +47,31 @@ include("header.php"); // Include the Page Layout header
   p{
     font-size: 20px;
   }
+  .discount{
+    position: absolute;
+    top:1rem;
+    left:-1px;
+    background: var(--light-orange-color);
+    color:var(--bg-color);
+    padding: 4px 18px;
+    clip-path: polygon(100% 0%,75% 50%,100% 100%,0 100%,0% 50%,0 0);
+}
+.padding{
+    width:60%; margin:auto;
+}
+@media(max-width:546px){
+    .container img{
+        right: 50px;
+        width:100%;
+        object-fit:contain;
+    }
+    .card{
+        height: 350px;
+    }
+    .padding{
+        width:90%;
+    }
+}
 </style>
 <!-- HTML Form to collect search keyword and submit it to the same page in server -->
 <div style="width:80%; margin:auto;"> <!-- Container -->
@@ -117,7 +142,7 @@ include("header.php"); // Include the Page Layout header
 </form>
 
  <!-- Create a container, 60% width of viewport -->
- <div style="width:60%; margin:auto;">
+ <div class="padding">
     <!-- Display Page Header -->
     <div class="row" style="padding:5px; text-align:left"> <!-- Start of header row -->
         <div class="col-12">
@@ -232,6 +257,8 @@ else {
             echo "Price: <span style='font-weight: bold; font-size: 20px; text-decoration: line-through;'>S$$formattedPrice</span>";
             echo "<span style='font-weight: bold; color:red; font-size: 20px;'>  S$$offerPrice</span>";
             echo "<p style='font-size:11px;' >From: " . $startDate->format('Y-m-d') . " to " . $endDate->format('Y-m-d') . "</p>";
+            $percent=round(($row["Price"] - $row["OfferedPrice"]) / $row["Price"] * 100 / 10) * 10;
+            echo '<span class="discount">-'.$percent.'%</span>';
         }
         else{
             echo "Price: <span style='font-weight: bold; color:black; font-size: 20px;'>S$$formattedPrice</span>";

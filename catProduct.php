@@ -52,6 +52,15 @@ include("header.php"); // Include the Page Layout header
   p{
     font-size: 20px;
   }
+  .discount{
+    position: absolute;
+    top:1rem;
+    left:-1px;
+    background: var(--light-orange-color);
+    color:var(--bg-color);
+    padding: 4px 18px;
+    clip-path: polygon(100% 0%,75% 50%,100% 100%,0 100%,0% 50%,0 0);
+}
 </style>
 
 
@@ -126,6 +135,8 @@ while ($row = $result->fetch_array()) {
         echo "Price: <span style='font-weight: bold; font-size: 20px; text-decoration: line-through;'>S$$formattedPrice</span>";
         echo "<span style='font-weight: bold; color:red; font-size: 20px;'>  S$$offerPrice</span>";
         echo "<p style='font-size:11px;' >From: " . $startDate->format('Y-m-d') . " to " . $endDate->format('Y-m-d') . "</p>";
+        $percent=round(($row["Price"] - $row["OfferedPrice"]) / $row["Price"] * 100 / 10) * 10;
+        echo '<span class="discount">-'.$percent.'%</span>';
     }
     else{
         echo "Price: <span style='font-weight: bold; color:black; font-size: 20px;'>S$$formattedPrice</span>";

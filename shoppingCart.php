@@ -384,7 +384,7 @@ WHERE
 			$final_price;
 			if ($row["Offered"] == 1 && $daysDifference >= 0){
 				$final_price = number_format($row["OfferedPrice"],2);
-				$discount += number_format($row["Price"] - $row["OfferedPrice"],2);
+				$discount += number_format($row["Price"] - $row["OfferedPrice"],2)*$row["ShopCartQuantity"];
 			}
 			else{
 				$final_price = number_format($row["Price"],2);

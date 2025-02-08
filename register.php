@@ -55,6 +55,13 @@ function validateForm()
         </div>
     </div>
     <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label" for="birthdate">Date of Birth:</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="birthdate" id="birthdate"
+                      type="date"/>
+        </div>
+    </div>
+    <div class="mb-3 row">
         <label class="col-sm-3 col-form-label" for="country">Country:</label>
         <div class="col-sm-9">
             <input class="form-control" name="country" id="country" type="text" />
@@ -88,6 +95,26 @@ function validateForm()
         <div class="col-sm-9">
             <input class="form-control" name="password2" id="password2" 
                    type="password" required /> (required)
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label" for="password">
+            Security Question:</label>
+        <div class="col-sm-9">
+        <select name="securityqn" id="securityqn" class="form-control">
+        <option value=""><--Select--></option>
+        <option value="What was your childhood best friend's nickname?">What was your childhood best friend's nickname?</option>
+        <option value="In which city did your parents meet?">In which city did your parents meet?</option>
+        <option value="What's your neighbor's last name?">What's your neighbor's last name?</option>
+        <option value="How many pets did you have at 10 years old?">How many pets did you have at 10 years old?</option>
+        </select>
+        </div>
+    </div><div class="mb-3 row">
+        <label class="col-sm-3 col-form-label" for="password">
+            Answer:</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="answer" id="answer" 
+                   type="text" /> 
         </div>
     </div>
     <div class="mb-3 row">       
