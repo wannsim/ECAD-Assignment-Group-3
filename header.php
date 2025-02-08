@@ -16,9 +16,6 @@
     <!-- Site specific Cascading Stylesheet-->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<!-- <body style="background: linear-gradient( rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%), url(Images/background.jpg);color:white;border: 0px;
-    padding: 0px;width:100%;height:100vh;background-size:cover;background-position:center;background-attachment: fixed;">
-     -->
      <body style="background: 
       linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), 
       url(Images/background.jpg);

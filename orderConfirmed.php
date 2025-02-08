@@ -53,7 +53,6 @@ echo "<style>
         }
     }
 </style>";
-/* $_SESSION["OrderID"]=8; */
 if(isset($_SESSION["OrderID"])) {	
 	
 	$qry = "SELECT * FROM orderdata o LEFT JOIN Shopcart s on o.ShopCartID=s.ShopCartID WHERE OrderID=?" ;

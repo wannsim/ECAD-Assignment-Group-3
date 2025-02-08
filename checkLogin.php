@@ -1,7 +1,5 @@
 <?php
-// Detect the current session
 session_start();
-// Include the Page Layout header
 include("header.php"); 
 
 // Include the PHP file that establishes database connection handle: $conn
@@ -15,12 +13,11 @@ if ($email=="admin@admin.com" && $pwd=="admin") {
     header("Location: admin.php");
     exit;
 }
-// To Do 1 (Practical 2): Validate login credentials with database
 $qry = "SELECT * FROM shopper WHERE Email = ?";
 $stmt = $conn->prepare($qry);
-$stmt->bind_param("s", $email); // Binding email parameter to prevent SQL injection
+$stmt->bind_param("s", $email);
 $stmt->execute();
-$result = $stmt->get_result(); // Execute the SQL and get the returned result
+$result = $stmt->get_result(); 
 
 if ($result->num_rows > 0) { // If found, display records
     while ($row = $result->fetch_array()) 
@@ -59,15 +56,8 @@ else {
     $_SESSION["Failed"] = 1;
 }
 
-
-	
-// Release the resource allocated for prepared statement
 $stmt->close();
-
-// Close database connection
 $conn->close();
 
-
-// Include the Page Layout footer
 include("footer.php");
 ?>

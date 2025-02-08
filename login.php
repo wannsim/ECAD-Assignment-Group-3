@@ -126,9 +126,6 @@ $loginFailed = isset($_SESSION["Failed"]) && $_SESSION["Failed"] == 1;
             <div class="card-body text-center">
                 <!-- Header -->
                 <h3 class="mb-4">Member Login</h3>
-
-
-
                 <!-- Form -->
                 <form action="checkLogin.php" method="post">
                     <!-- Username Input -->
@@ -145,7 +142,7 @@ $loginFailed = isset($_SESSION["Failed"]) && $_SESSION["Failed"] == 1;
                     <div class="text-start mb-4">
                         <a href="forgetPassword.php">Forget Password?</a>
                     </div>
-                                    <!-- Display error message if login failed -->
+                <!-- Display error message if login failed -->
                 <?php if ($loginFailed): ?>
                     <div class="error-message">Invalid Login Credentials</div>
                 <?php endif; ?>

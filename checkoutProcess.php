@@ -6,8 +6,6 @@ include_once("mysql_conn.php");
 
 if($_POST) //Post Data received from Shopping cart page.
 {
-	// To Do 6 (DIY): Check to ensure each product item saved in the associative
-	//                array is not out of stock
 	$_SESSION["ShipCharge"] = number_format($_POST["delivery"],2);
 	$deliverytime="";
 	if (isset($_POST["time"])) {
@@ -34,7 +32,6 @@ if($_POST) //Post Data received from Shopping cart page.
 		$qry = "SELECT * from product
 			WHERE ProductID=?";
 			$stmt = $conn->prepare($qry) ;
-			//"i" - integer, "d" - double
 			$stmt->bind_param("i", $item["productId"]);
 			$stmt->execute();
 			$result = $stmt->get_result();
@@ -48,22 +45,14 @@ if($_POST) //Post Data received from Shopping cart page.
 			}
 		}
 	
-	// End of To Do 6
 	
 	$paypal_data = '';
-	// Get all items from the shopping cart, concatenate to the variable $paypal_data
-	// $_SESSION['Items'] is an associative array
 	foreach($_SESSION['Items'] as $key=>$item) {
 		$paypal_data .= '&L_PAYMENTREQUEST_0_QTY'.$key.'='.urlencode($item["quantity"]);
 	  	$paypal_data .= '&L_PAYMENTREQUEST_0_AMT'.$key.'='.urlencode($item["price"]);
 	  	$paypal_data .= '&L_PAYMENTREQUEST_0_NAME'.$key.'='.urlencode($item["name"]);
 		$paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
 	}
-	
-	/* // To Do 1A: Compute GST amount 7% for Singapore, round the figure to 2 decimal places
-	$_SESSION["Tax"] = round($_SESSION["SubTotal"]*0.09,2);	
-	// To Do 1B: Compute Shipping charge - S$2.00 per trip
-	$_SESSION["ShipCharge"] = 2.00; */
 		
 	
 	//Data to be sent to PayPal
@@ -146,7 +135,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 	                                   $PayPalApiUsername, $PayPalApiPassword, 
 									   $PayPalApiSignature, $PayPalMode);
 	
-	//Check if everything went ok..
+	//Check if everything went ok
 	if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
 	   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 	{
@@ -154,7 +143,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$qry = "UPDATE product SET Quantity=Quantity-?
 			WHERE ProductID=?";
 			$stmt = $conn->prepare($qry) ;
-			//"i" - integer, "d" - double
 			$stmt->bind_param("ii", $item["quantity"], $item["productId"]);
 			$stmt->execute();
 			$stmt->close();
@@ -166,7 +154,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		SubTotal=?, ShipCharge=?, Tax=?, Total=?,Discount=?
 		WHERE ShopCartID=?";
 		$stmt = $conn->prepare($qry) ;
-		//"i" - integer, "d" - double
 		$stmt->bind_param("idddddi", $_SESSION["NumCartItem"],
 		$_SESSION["SubTotal"], $_SESSION["ShipCharge"] ,
 		$_SESSION["Tax"], $total,$_SESSION["Discount"],$_SESSION["Cart"]);
@@ -233,7 +220,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$qry = "SELECT * from shopper
 			WHERE ShopperID=?";
 			$stmt = $conn->prepare($qry) ;
-			//"i" - integer, "d" - double
 			$stmt->bind_param("i",$_SESSION["ShopperID"]);
 			$stmt->execute();
 			$result = $stmt->get_result();
@@ -249,7 +235,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			ShipEmail,BillName, BillAddress, BillCountry, BillPhone, BillEmail,DeliveryDate,DeliveryTime, DeliveryMode,Message)
 			VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";
 			$stmt = $conn ->prepare($qry);
-			//"i" - integer, "s" - string
 			$stmt->bind_param ("isssssssssssss" , $_SESSION["Cart"], $ShipName, $ShipAddress, $ShipCountry,
 			$ShipEmail,$billname,$billaddress,$billcountry,$billphone,$billemail,$DeliverDate,$_SESSION["DeliveryTime"],$Delivery,$_SESSION["Message"]);
 			$stmt->execute() ;
@@ -258,17 +243,14 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$result = $conn->query($qry) ;
 			$row = $result->fetch_array() ;
 			$_SESSION["OrderID"] = $row["OrderID"] ;
-			// End of To Do 3
+		
 				
 			$conn->close();
 				  
-			// To Do 4A: Reset the "Number of Items in Cart" session variable to zero.
 			$_SESSION["NumCartItem"] = 0;
 	  		
-			// To Do 4B: Clear the session variable that contains Shopping Cart ID.
 			unset($_SESSION["Cart"]);
 			
-			// To Do 4C: Redirect shopper to the order confirmed page.
 			header("Location: orderConfirmed.php");
 			exit;
 		} 

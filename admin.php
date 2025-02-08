@@ -59,7 +59,6 @@ if(isset($_SESSION["ShopperName"])) {
                 <th>Actions</th>
 
             </thead>
-            <!-- This will be filled with information later -->
             <tbody>
               
             <?php

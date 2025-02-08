@@ -35,10 +35,6 @@ include("header.php"); // Include the Page Layout header
   h2 a{
     color:black;
   }
-  /* .row{
-    align-items: center;
-    text-align: center;
-  } */
 
   .body{
     padding: 15px;
@@ -73,26 +69,13 @@ include("header.php"); // Include the Page Layout header
     }
 }
 </style>
-<!-- HTML Form to collect search keyword and submit it to the same page in server -->
 <div style="width:80%; margin:auto;"> <!-- Container -->
 <form name="frmSearch" method="get" action="">
     <div class="mb-3 row"> <!-- 1st row -->
         <div class="col-sm-9 offset-sm-3">
             <span class="page-title" style="font-size:50px;">Product Search</span>
         </div>
-    </div> <!-- End of 1st row -->
-    <!-- <div class="mb-3 row" style="font-size:30px;"> 
-        <label for="keywords" 
-               class="col-sm-3 col-form-label">Product Title:</label>
-        <div class="col-sm-6">
-            <input class="form-control" name="keywords" id="keywords" 
-                   type="search" />
-        </div>
-        <div class="col-sm-3">
-            <button class='btn btn-primary' type="submit">Search</button>
-        </div>
-    </div>  
-</form> -->
+    </div> 
 <form method="get" action="">
     <div class="mb-3 row">
         <label for="keywords" class="col-sm-3 col-form-label" style="font-size:20px;">Search:</label>
@@ -161,7 +144,6 @@ $offers = isset($_GET['offers']) && $_GET['offers'] !== "" ? $_GET['offers'] : n
 if ($keywords != "" || $availability != "" || $minPrice != "" || $maxPrice != "" || $offers != "" ) {
 
     include_once("mysql_conn.php");
-    // Build query dynamically
     $qry = "SELECT * FROM product WHERE 1=1";
     $params = [];
     $types = "";
@@ -269,7 +251,6 @@ else {
             echo "Price: <span style='font-weight: bold; color:black; font-size: 20px;'>S$$formattedPrice</span>";
         }
         
-        // echo "Price: <span style='font-weight: bold; color: red;'>$$formattedPrice</span>";
         echo "</div>";
         echo "</div>"; 
         echo "</div>";

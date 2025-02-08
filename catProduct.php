@@ -82,7 +82,6 @@ include_once("mysql_conn.php");
 
 $cid = $_GET["cid"];
 
-// Form SQL to retrieve list of products associated to the Category ID
 $qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity, p.Offered, p.OfferedPrice, 
                 p.OfferStartDate, p.OfferEndDate
         FROM CatProduct cp
@@ -91,11 +90,10 @@ $qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity,
         ORDER BY p.ProductTitle ASC";
 
 $stmt = $conn->prepare($qry);
-$stmt->bind_param("i", $cid); // "i" - integer
+$stmt->bind_param("i", $cid); 
 $stmt->execute();
 
 $result = $stmt->get_result();
-// Close the statement to release resources
 $stmt->close();
 
 $count = 0;
@@ -147,7 +145,6 @@ while ($row = $result->fetch_array()) {
         echo "Price: <span style='font-weight: bold; color:black; font-size: 20px;'>S$$formattedPrice</span>";
     }
 
-  // echo "Price: <span style='font-weight: bold; color: red;'>$$formattedPrice</span>";
   echo "</div>"; 
   echo "</div>"; 
   echo "</div>";

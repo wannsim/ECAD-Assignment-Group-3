@@ -66,10 +66,7 @@ include("header.php"); // Include the Page Layout header
 
 // Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php");
-// To Do:  Starting ....
-// Form SQL to select all categories
 $qry = "SELECT * FROM Category";
-// Execute the SQL and get the result
 $result = $conn->query($qry);
 
 $count = 0;

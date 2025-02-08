@@ -50,12 +50,10 @@ $pid=$_GET["pid"]; // Read Product ID from query string
 include_once("mysql_conn.php"); 
 $qry = "SELECT * from product where ProductID=?";
 $stmt = $conn->prepare($qry);
-$stmt->bind_param("i", $pid);   // "i" - integer 
+$stmt->bind_param("i", $pid);   
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
-
-// To Do 1:  Display Product information. Starting ....
 
 while ($row = $result->fetch_array()) {
     $stock = $row["Quantity"];

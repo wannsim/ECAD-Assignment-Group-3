@@ -29,7 +29,7 @@ function addItem() {
 		// Create a shopping cart for the shopper
 		$qry = "INSERT INTO Shopcart (ShopperID) VALUES (?)" ;
 		$stmt = $conn->prepare($qry);
-		$stmt->bind_param("i", $_SESSION ["ShopperID"]); // "i" - integer
+		$stmt->bind_param("i", $_SESSION ["ShopperID"]); 
 		$stmt->execute();
 		$stmt->close();
 		$qry = "SELECT LAST_INSERT_ID() AS ShopCartID" ;
@@ -45,7 +45,7 @@ function addItem() {
 	$qry = "SELECT * FROM ShopCartItem WHERE ShopCartID=? AND ProductID=?";
 	$stmt = $conn->prepare($qry);
 
-	$stmt->bind_param("ii", $_SESSION["Cart"], $pid); // "i" - integer
+	$stmt->bind_param("ii", $_SESSION["Cart"], $pid);
 	$stmt->execute();
 
 	$result = $stmt->get_result();
@@ -57,14 +57,12 @@ function addItem() {
 		$qry = "UPDATE ShopCartItem SET Quantity=LEAST(Quantity+?, 10) WHERE ShopCartID=? AND ProductID=?";
 		$stmt = $conn->prepare($qry);
 
-		// "iii" - 3 integers
 		$stmt->bind_param("iii", $quantity, $_SESSION["Cart"], $pid);
 		$stmt->execute();
 		$stmt->close();
 	} else { // Selected product has yet to be added to shopping cart
 		$qry = "INSERT INTO ShopCartItem(ShopCartID, ProductID, Price, Name, Quantity) SELECT ?, ?, Price, ProductTitle, ? FROM Product WHERE ProductID=?";
 		$stmt = $conn->prepare($qry);
-		// "iiii" - 4 integers
 		$stmt->bind_param("iiii", $_SESSION["Cart"], $pid, $quantity, $pid);
 		$stmt->execute();
 		$stmt->close();
@@ -96,13 +94,10 @@ function updateItem() {
 		header ("Location: login.php");
 		exit;
 	}
-	// TO DO 2
-	// Write code to implement: if a user clicks on "Update" button, update the database
-	// and also the session variable for counting number of items in shopping cart.
 	$cartid = $_SESSION["Cart"];
 	$pid = $_POST["product_id"];
 	$quantity = $_POST ["quantity"];
-	include_once("mysql_conn.php"); //Establish database connection handle: $conn
+	include_once("mysql_conn.php"); 
 	$qry = "SELECT * FROM Product WHERE ProductID = ?" ;
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param( "i" , $pid);
@@ -139,12 +134,9 @@ function removeItem() {
 		exit;
 	}
 	
-	// TO DO 3
-	// Write code to implement: if a user clicks on "Remove" button, update the database
-	// and also the session variable for counting number of items in shopping cart.
 	$cartid = $_SESSION["Cart"];
 	$pid = $_POST["product_id"];
-	include_once("mysql_conn.php"); //Establish database connection handle: $conn
+	include_once("mysql_conn.php"); 
 	$qry = "DELETE FROM ShopCartitem WHERE ProductID=? AND ShopCartID=?" ;
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param( "ii" , $pid, $cartid);

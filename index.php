@@ -82,9 +82,6 @@ if(isset($_SESSION["ShopperName"])) {
 </style>
 
 <?php
-
-
-// Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php"); 
 $qry = "SELECT * FROM product";
 $stmt = $conn->prepare($qry); 

@@ -248,29 +248,11 @@ echo "  <style>
     }
     </style>";
 
-/* if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delivery'])) {
-    $_SESSION["ShipCharge"] = (float)$_POST["delivery"];
-} elseif (!isset($_SESSION["ShipCharge"])) {
-    // Set a default ShipCharge if not already set
-    $_SESSION["ShipCharge"] = 10.00; // Default value
-}
 
-// Display the form
-echo '<form method="post">';
-echo '    <select name="delivery" id="delivery" onchange="this.form.submit()">';
-echo '        <option value="5"' . (isset($_SESSION["ShipCharge"]) && $_SESSION["ShipCharge"] == 5 ? ' selected' : '') . '>Normal Delivery</option>';
-echo '        <option value="10"' . (isset($_SESSION["ShipCharge"]) && $_SESSION["ShipCharge"] == 10 ? ' selected' : '') . '>Express Delivery</option>';
-echo '    </select>';
-echo '</form>';
-
-// Display the shipping charge
-echo '<p>Shipping Charge: S$' . number_format($_SESSION["ShipCharge"], 2) . '</p>';
- */
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
 	include_once("mysql_conn.php");
-	// To Do 1 (Practical 4): 
-	// Retrieve from database and display shopping cart in a table
+
 	$qry = "SELECT 
     Product.*, 
     ShopCartItem.price AS ShopCartPrice, 
@@ -283,19 +265,13 @@ INNER JOIN
 WHERE 
     ShopCartItem.ShopCartID = ?";
 	$stmt = $conn->prepare($qry) ;
-	$stmt->bind_param("i",$_SESSION["Cart"]) ; //"i" - integer
+	$stmt->bind_param("i",$_SESSION["Cart"]) ; 
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$stmt->close();
 	if ($result->num_rows > 0) {
-		// To Do 2 (Practical 4): Format and display 
-		// the page header and header row of shopping cart page
 		echo '<h1 id="title" style = " text-align:center">Shopping Cart</h1>';
-		// To Do 5 (Practical 5):
-		// Declare an array to store the shopping cart items in session variable
 		$_SESSION["Items"]=array();
-		// To Do 3 (Practical 4): 
-		// Display the shopping cart content
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		$total_quantity = 0;
 		$discount = 0;
@@ -406,8 +382,6 @@ WHERE
 			"name"=>$row["ProductTitle"],
 			"price"=>$final_price,
 			"quantity"=>$row["ShopCartQuantity"]);
-			// Accumulate the running sub-total
-			/* $subTotal += $row["Total"]; */
 		}
 		$_SESSION["SubTotal"] = round($subTotal,2);
 		$_SESSION["Discount"] = round($discount,2);
