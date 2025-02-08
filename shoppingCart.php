@@ -264,6 +264,7 @@ INNER JOIN
     Product ON ShopCartItem.ProductID = Product.ProductID 
 WHERE 
     ShopCartItem.ShopCartID = ?";
+
 	$stmt = $conn->prepare($qry) ;
 	$stmt->bind_param("i",$_SESSION["Cart"]) ; 
 	$stmt->execute();
@@ -405,7 +406,7 @@ WHERE
 		echo "            <span><b>Total in Cart ($total_quantity items)</b></span>";
 		echo '        </div>';
 		echo '        <div class="checkout-row">';
-		echo '            <span>Subtotal</span>';
+		echo "            <span>Subtotal (Total $total_quantity item(s) )</span>";
 		echo "            <span>S$".number_format($subTotal,2);
 		echo " 			  </span>";
 		echo '        </div>';
