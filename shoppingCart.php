@@ -311,7 +311,6 @@ WHERE
 			echo "<div class='container1'>";
 			echo "<span style='position: relative;top: 16;
 			right: 10; font-size: 20px;'>Quantity: </span>";
-			echo "<button id='decrement' onclick='stepper(this)' style='font-size: 35px;'> - </button>";
 			echo '<input onChange="this.form.submit()"';
 			echo '            type="number" ';
 			echo '            id="my-input" ';
@@ -321,7 +320,6 @@ WHERE
 			echo '            oninput="checkQuantity(this)"'; // Add validation for numeric input
 			echo '            step="1" style="font-size: 30px"';
 			echo '        />';
-			echo "<button id='increment' onclick='stepper(this)' style='font-size: 30px;'> + </button>";
 			echo "</div>";
 			
 
