@@ -7,8 +7,11 @@ else{
     $content1 = "<a href='logout.php'><i class='fa-solid fa-right-from-bracket fa-flip-horizontal'></i><span id='username'>Logout</span></a>";
     if (isset($_SESSION["NumCartItem"])) {
         $content2 =" (".$_SESSION["NumCartItem"].")";
-    
-}}
+    }
+    else{
+        $content2 = "";
+    }
+}
 
 ?>
  <header>
