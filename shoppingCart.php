@@ -247,7 +247,7 @@ echo "  <style>
     </style>";
 
 
-echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
+echo "<div id='myShopCart' style='margin:auto; '>"; // Start a container
 if (isset($_SESSION["Cart"])) {
 	include_once("mysql_conn.php");
 
@@ -269,7 +269,9 @@ WHERE
 	$result = $stmt->get_result();
 	$stmt->close();
 	if ($result->num_rows > 0) {
-		echo '<h1 id="title" style = " text-align:center">Shopping Cart</h1>';
+		echo '<div style="text-align:center;">';
+		echo '<span class="page-title" style="font-size:45px; margin-top:-10px; ">Shopping Cart</span>';
+		echo '</div>';
 		$_SESSION["Items"]=array();
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		$total_quantity = 0;
