@@ -194,8 +194,6 @@ echo "  <style>
 			#title{
 				margin-top:-10px;
 			}
-		b{
-		font-size:0px;}
 		@media(max-width:600px) {
 			.product-container{
 				flex-direction: column;
@@ -310,17 +308,19 @@ WHERE
 			
 			
 			echo "<div class='container1'>";
-			echo "<span style='position: relative;top: 16;
-			right: 10; font-size: 20px;'>Quantity: </span>";
+			echo "<span style='position: relative;top: 16px;
+			right: 10px; font-size: 20px;'>Quantity: </span>";
+			echo "<button id='decrement' onclick='stepper(this)' style='font-size: 35px;'> - </button>";
 			echo '<input onChange="this.form.submit()"';
 			echo '            type="number" ';
-			echo '            id="my-input" ';
+			echo '            class="my-input" ';
 			echo '            name="quantity" min="1" ';
 			echo '            value="' . $row["ShopCartQuantity"] . '" ';
 			echo '            max="' . $row["Quantity"] . '" ';
 			echo '            oninput="checkQuantity(this)"'; // Add validation for numeric input
 			echo '            step="1" style="font-size: 30px"';
 			echo '        />';
+			echo "<button id='increment' onclick='stepper(this)' style='font-size: 30px;'> + </button>";
 			echo "</div>";
 			
 
@@ -331,8 +331,8 @@ WHERE
 			echo '</form>';
 			echo '    </div>';
 			echo "<script>";
-			echo "const myInput = document.getElementById('my-input');";
 			echo "function stepper(btn) {";
+			echo "let myInput = btn.closest('.product-actions').querySelector('.my-input'); ";
 			echo "let id = btn.getAttribute('id');";
 			echo "let min = myInput.getAttribute('min');";
 			echo "let max = myInput.getAttribute('max');";
@@ -406,7 +406,7 @@ WHERE
 		echo "            <span><b>Total in Cart ($total_quantity items)</b></span>";
 		echo '        </div>';
 		echo '        <div class="checkout-row">';
-		echo "            <span>Subtotal (Total $total_quantity item(s) )</span>";
+		echo "            <span>Subtotal</span>";
 		echo "            <span>S$".number_format($subTotal,2);
 		echo " 			  </span>";
 		echo '        </div>';
